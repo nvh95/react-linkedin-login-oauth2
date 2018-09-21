@@ -20,6 +20,7 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
+    "enzyme": "^3.6.0",
     "query-string": "^6.1.0",
     "react-router": "^4.3.1"
   },
