@@ -32,11 +32,19 @@
     "react": "^16.5.2",
     "react-dom": "^16.5.2"
   },
-  "author": "",
-  "homepage": "",
+  "author": "nvh95",
+  "homepage": "https://github.com/nvh95/react-linkedin-login-oauth2",
   "license": "MIT",
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nvh95/react-linkedin-login-oauth2.git"
+  },
+  "bug": {
+    "url": "https://github.com/nvh95/react-linkedin-login-oauth2/issues"
+  },
   "keywords": [
-    "react-component"
+    "react",
+    "linkedin",
+    "log in"
   ]
 }

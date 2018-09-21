@@ -4,7 +4,6 @@
 [![npm package][npm-badge]][npm]
 [![Coveralls][coveralls-badge]][coveralls]
 
-Describe react-linkedin-login-oauth2 here.
 
 [build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
 [build]: https://travis-ci.org/user/repo
@@ -14,3 +13,7 @@ Describe react-linkedin-login-oauth2 here.
 
 [coveralls-badge]: https://img.shields.io/coveralls/user/repo/master.png?style=flat-square
 [coveralls]: https://coveralls.io/github/user/repo
+
+This package is used to get authorization code for Linked In Log in feature using OAuth2. For more, please see at [this link](https://developer.linkedin.com/docs/oauth2)  
+See `demo/src/index.js` for examples.  
+I will update README very soon. If you need this feature in urgent situation, please contact me via `nguyenviethunghl00 at gmail.com`
