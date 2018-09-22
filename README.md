@@ -14,6 +14,8 @@
 [coveralls-badge]: https://img.shields.io/coveralls/user/repo/master.png?style=flat-square
 [coveralls]: https://coveralls.io/github/user/repo
 
+Demo: https://stupefied-goldberg-b44ee5.netlify.com/
+
 This package is used to get authorization code for Linked In Log in feature using OAuth2 in a easy way, without redirecting your application to linked in authorization page. After have the authorization code, you can send it to server to continue to get information needed. For more, please see at [Authenticating with OAuth 2.0 - Linked In](https://developer.linkedin.com/docs/oauth2)  
 See `demo/src/index.js` for examples.  
 
@@ -108,7 +110,8 @@ git clone https://github.com/nvh95/react-linkedin-login-oauth2
 cd react-linkedin-login-oauth2
 npm start
 ```
-
+Or via this link:
+[https://stupefied-goldberg-b44ee5.netlify.com/](https://stupefied-goldberg-b44ee5.netlify.com/)
 ## Props
 `LinkedIn` component:  
 
