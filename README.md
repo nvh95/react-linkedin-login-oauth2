@@ -111,6 +111,7 @@ npm start
 
 ## Props
 `LinkedIn` component:  
+
 | Parameter   | value    | is required |         default         |
 |-------------|----------|:-----------:|:-----------------------:|
 | clientId    | string   |     yes     |                         |
