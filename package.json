@@ -8,7 +8,8 @@
     "css",
     "es",
     "lib",
-    "umd"
+    "umd",
+    "assets"
   ],
   "scripts": {
     "build": "nwb build-react-component",
