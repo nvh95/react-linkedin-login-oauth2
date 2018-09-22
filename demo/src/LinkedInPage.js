@@ -30,7 +30,7 @@ class LinkedInPage extends Component {
           clientId="81lx5we2omq9xh"
           onFailure={this.handleFailure}
           onSuccess={this.handleSuccess}
-          redirectUri="http://localhost:3000/linkedin"
+          redirectUri={`${window.location.origin}/linkedin`}
         >
           {/* <img src={require('./assets/linkedin.png')} alt="Log in with Linked In" style={{ maxWidth: '180px' }} /> */}
         </LinkedIn>
