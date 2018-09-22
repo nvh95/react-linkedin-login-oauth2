@@ -1,6 +1,6 @@
 {
   "name": "react-linkedin-login-oauth2",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "react-linkedin-login-oauth2 React component",
   "main": "lib/index.js",
   "module": "es/index.js",
