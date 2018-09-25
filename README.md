@@ -13,7 +13,17 @@ Demo: https://stupefied-goldberg-b44ee5.netlify.com/
 This package is used to get authorization code for Linked In Log in feature using OAuth2 in a easy way, without redirecting your application to linked in authorization page. After have the authorization code, you can send it to server to continue to get information needed. For more, please see at [Authenticating with OAuth 2.0 - Linked In](https://developer.linkedin.com/docs/oauth2)  
 See `demo/src/index.js` for examples.  
 
-## Install
+## Table of contents
+- [Installation](#installation)
+- [Overview](#overview)
+- [Usage](#usage)
+- [Demo](#demo)
+- [Props](#props)
+- [Contribution](#contribution)
+- [Issues](#issues)
+
+
+## Installation
 ```
 npm i react-linkedin-login-oauth2
 ```
@@ -127,8 +137,12 @@ No parameters needed
 ## Contribution  
 All helps are welcome. Please open a PR and describe what do you want to improve. 
 
-## Issue  
+## Issues  
 Please create an issue at [https://github.com/nvh95/react-linkedin-login-oauth2/issues](https://github.com/nvh95/react-linkedin-login-oauth2/issues). I will spend time to help you.
-
+#### Failed to minify the code from this file: ./node_modules/react-linkedin-login-oauth2/node_modules/query-string/index.js:8
+Please upgrade `react-linkedin-login-oauth2` to latest version following
+```
+npm install --save react-linkedin-login-oauth2
+```
 ## Known issue
 - `react-linkedin-login-oauth2` currently doesn't support IE 11. IE 11 will be supported in version `1.1.0`
