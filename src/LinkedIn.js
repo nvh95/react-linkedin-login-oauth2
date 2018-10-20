@@ -15,6 +15,7 @@ export class LinkedIn extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('message', this.receiveMessage, false);
+    if (this.popup && !this.popup.closed) this.popup.close();
   }
 
   getUrl = () => {
