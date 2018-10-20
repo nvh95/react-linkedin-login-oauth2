@@ -15,6 +15,7 @@ export class LinkedIn extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('message', this.receiveMessage, false);
+    if (this.popupInterval) window.clearInterval(this.popupInterval);
   }
 
   getUrl = () => {
@@ -44,6 +45,13 @@ export class LinkedIn extends Component {
     }
     this.props.onClick && this.props.onClick();
     this.popup = window.open(this.getUrl(), '_blank', 'width=600,height=600');
+    this.popupInterval = window.setInterval(() => {
+      if (this.popup.closed) {
+        this.props.onFailure({error: 'window closed', errorMessage: 'Login failed. Please try again.', from: 'Linked In'});
+        window.clearInterval(popupInterval);
+        this.popupInterval = undefined;
+      }
+    }, 500);
     window.removeEventListener('message', this.receiveMessage, false);
     window.addEventListener('message', this.receiveMessage, false);
   }
