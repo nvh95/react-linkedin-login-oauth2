@@ -19,9 +19,10 @@ export class LinkedIn extends Component {
   }
 
   getUrl = () => {
-    const {redirectUri, clientId} = this.props;
+    const {redirectUri, clientId, state, scope} = this.props;
     // TODO: Support IE 11
-    const linkedInAuthenLink = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=fdsf78fyds7fm`;
+    const scopeParam = (scope) ? `&scope=${encodeURI(scope)}` : ''
+    const linkedInAuthenLink = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}${scopeParam}&state=${state}`;
     return linkedInAuthenLink;
   }
 
@@ -70,5 +71,6 @@ LinkedIn.defaultProps = {
   className: 'btn-linkedin',
   disabled: false,
   children: (<img src={require('../assets/linkedin.png')} alt="Log in with Linked In" style={{ maxWidth: '180px' }} />),
+  state: 'fdsf78fyds7fm',
 };
 export default LinkedIn;

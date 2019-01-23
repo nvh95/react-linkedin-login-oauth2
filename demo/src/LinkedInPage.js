@@ -28,9 +28,11 @@ class LinkedInPage extends Component {
       <div>
         <LinkedIn
           clientId="81lx5we2omq9xh"
+          redirectUri={`${window.location.origin}/linkedin`}
+          scope="r_fullprofile r_emailaddress w_share"
+          state="34232423"
           onFailure={this.handleFailure}
           onSuccess={this.handleSuccess}
-          redirectUri={`${window.location.origin}/linkedin`}
         >
           <img src={require('./assets/linkedin.png')} alt="Log in with Linked In" style={{ maxWidth: '180px' }} />
         </LinkedIn>

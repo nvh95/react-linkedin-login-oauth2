@@ -123,6 +123,8 @@ Or via this link:
 |-------------|----------|:-----------:|:-----------------------:|
 | clientId    | string   |     yes     |                         |
 | redirectUri | string   |     yes     |                         |
+| scope       | string   |      no     |Default member permissions defined in application configuration|
+| state       | string   |      no     |      fdsf78fyds7fm      |
 | onSuccess   | function |     yes     |                         |
 | onFailure   | function |     yes     |                         |
 | className   | string   |      no     |      'btn-linkedin'     |
@@ -130,6 +132,7 @@ Or via this link:
 | onClick     | function |      no     |                         |
 | children    | function |      no     | Linked in Signin button |
 
+Read more about props here [https://developer.linkedin.com/docs/oauth2](https://developer.linkedin.com/docs/oauth2)
 
 `LinkedinPopUp` component:  
 No parameters needed  
