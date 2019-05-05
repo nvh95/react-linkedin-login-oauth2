@@ -11,6 +11,7 @@ export class LinkedIn extends Component {
     disabled: PropTypes.bool,
     clientId: PropTypes.string.isRequired,
     redirectUri: PropTypes.string.isRequired,
+    renderElement: PropTypes.func,
   }
 
   componentWillUnmount() {
@@ -52,7 +53,10 @@ export class LinkedIn extends Component {
 
 
   render() {
-    const { className, disabled, children } = this.props;
+    const { className, disabled, children, renderElement } = this.props;
+    if (renderElement) {
+      return renderElement({ onClick: this.handleConnectLinkedInClick, disabled })
+    }
     return (
       <button
         type="button"

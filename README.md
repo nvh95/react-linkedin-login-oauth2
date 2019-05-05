@@ -81,6 +81,20 @@ class LinkedInPage extends Component {
 
 export default LinkedInPage;
 ```
+
+Usage with custom button
+```
+<LinkedIn
+  clientId="81lx5we2omq9xh"
+  onFailure={this.handleFailure}
+  onSuccess={this.handleSuccess}
+  redirectUri="http://localhost:3000/linkedin"
+  renderElement={({ onClick, disabled }) => (
+    <button onClick={onClick} disabled={disabled}>Custom linkedin element</button>
+  )}
+/>
+```
+
 Then we define a route to `redirect_url` and pass `LinkedInPopUp` to it as follow:
 ```
 import React, { Component } from 'react';
@@ -131,6 +145,7 @@ Or via this link:
 | disabled    | boolean  |      no     |          false          |
 | onClick     | function |      no     |                         |
 | children    | function |      no     | Linked in Signin button |
+| renderElement | function |      no     | Render prop to use a custom element, use props.onClick |
 
 Read more about props here [https://developer.linkedin.com/docs/oauth2](https://developer.linkedin.com/docs/oauth2)
 
