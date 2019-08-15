@@ -14,18 +14,26 @@ This package is used to get authorization code for Linked In Log in feature usin
 See `demo/src/index.js` for examples.  
 
 ## Table of contents
+- [Changelog](#changelog)
 - [Installation](#installation)
 - [Overview](#overview)
 - [Usage](#usage)
+- [Support IE](#support-ie)
 - [Demo](#demo)
 - [Props](#props)
 - [Contribution](#contribution)
 - [Issues](#issues)
 
+## Changelog
+### 1.0.7
+- Remove unnecessary `console.log`  
+- Be able to render custom element (Thank @YBeck for your contribution)
+- Support IE11, please see #support-ie for more detail
+- Check `state` to avoid CSRF attack
 
 ## Installation
 ```
-npm i react-linkedin-login-oauth2
+npm install --save react-linkedin-login-oauth2
 ```
 
 ## Overview
@@ -118,6 +126,21 @@ You can render your own component by provide `renderElement` as following exampl
   )}
 />
 ```
+# Support IE
+
+Earlier, this package might not work in IE11. The reason is that if popup and opener do not have same domain, popup cannot send message to opener. For more information about this, please visit [here](https://stackoverflow.com/questions/21070553/postmessage-still-broken-on-ie11). From `1.0.7`, we can bypass this by open a popup to our page, then redirect to Linked In authorization page, it should work fine. IE11 is supported in `1.0.7`. Following is step to support it. (If you don't have need to support IE, please ignore this part)  
+
+
+1. Pass prop `supportIE` 
+2. Pass `redirectPath`  which has path route to `LinkedinPopUp` component, default value is `/linkedin` (for above example, `<Route exact path="/linkedin" component={LinkedInPopUp} />` => `redirectPath="/linkedin"`)
+```
+<LinkedIn
+  ...
+  supportIE
+  redirectPath="/linkedin"
+  ...
+/>
+```
 
 ## Demo
 You can see demo via this [https://github.com/nvh95/react-linkedin-login-oauth2/tree/master/demo/src](https://github.com/nvh95/react-linkedin-login-oauth2/tree/master/demo/src)  
@@ -147,6 +170,8 @@ Or via this link:
 | onClick     | function |      no     |                         |
 | children    | function |      no     | Linked in Signin button |
 | renderElement | function |      no     | Render prop to use a custom element, use props.onClick |
+| supportIE   | boolean |      no     | false |
+| redirectPath | function |      no     | /linkedin |
 
 Read more about props here [https://developer.linkedin.com/docs/oauth2](https://developer.linkedin.com/docs/oauth2)
 
@@ -155,6 +180,8 @@ No parameters needed
 
 ## Contribution  
 All helps are welcome. Please open a PR and describe what do you want to improve. 
+
+I would like to thank @Songuku95 and @YBeck for your contributions to this package.
 
 ## Issues  
 Please create an issue at [https://github.com/nvh95/react-linkedin-login-oauth2/issues](https://github.com/nvh95/react-linkedin-login-oauth2/issues). I will spend time to help you.
