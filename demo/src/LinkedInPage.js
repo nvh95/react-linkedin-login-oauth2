@@ -33,6 +33,8 @@ class LinkedInPage extends Component {
           state="34232423"
           onFailure={this.handleFailure}
           onSuccess={this.handleSuccess}
+          supportIE
+          redirectPath='/linkedin'
         >
           <img src={require('./assets/linkedin.png')} alt="Log in with Linked In" style={{ maxWidth: '180px' }} />
         </LinkedIn>

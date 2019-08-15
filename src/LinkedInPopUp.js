@@ -15,6 +15,9 @@ class LinkedInPopUp extends Component {
     if (params.code) {
       window.opener && window.opener.postMessage({ code: params.code, state: params.state, from: 'Linked In'}, window.location.origin);
     }
+    if(params.linkedin_redirect_url) {
+      window.location.href = params.linkedin_redirect_url
+    }
   }
   render() {
     return null;
