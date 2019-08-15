@@ -13,7 +13,6 @@ class LinkedInPopUp extends Component {
       }
     }
     if (params.code) {
-      console.log('sending code', params.code);
       window.opener && window.opener.postMessage({ code: params.code, from: 'Linked In' }, window.location.origin);
     }
   }

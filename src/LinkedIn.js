@@ -29,7 +29,6 @@ export class LinkedIn extends Component {
 
   receiveMessage = (event) => {
     if (event.origin === window.location.origin) {
-      console.log('event data:', event.data);
       if (event.data.errorMessage && event.data.from === 'Linked In') {
         this.props.onFailure(event.data);
         this.popup && this.popup.close();
@@ -41,7 +40,6 @@ export class LinkedIn extends Component {
   };
 
   handleConnectLinkedInClick = (e) => {
-    console.log('handleConnectLinkedInClick');
     if (e) {
       e.preventDefault();
     }

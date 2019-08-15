@@ -82,19 +82,6 @@ class LinkedInPage extends Component {
 export default LinkedInPage;
 ```
 
-Usage with custom button
-```
-<LinkedIn
-  clientId="81lx5we2omq9xh"
-  onFailure={this.handleFailure}
-  onSuccess={this.handleSuccess}
-  redirectUri="http://localhost:3000/linkedin"
-  renderElement={({ onClick, disabled }) => (
-    <button onClick={onClick} disabled={disabled}>Custom linkedin element</button>
-  )}
-/>
-```
-
 Then we define a route to `redirect_url` and pass `LinkedInPopUp` to it as follow:
 ```
 import React, { Component } from 'react';
@@ -116,6 +103,20 @@ class Demo extends Component {
     );
   }
 }
+```
+
+### Usage with custom button
+You can render your own component by provide `renderElement` as following example:
+```
+<LinkedIn
+  clientId="81lx5we2omq9xh"
+  onFailure={this.handleFailure}
+  onSuccess={this.handleSuccess}
+  redirectUri="http://localhost:3000/linkedin"
+  renderElement={({ onClick, disabled }) => (
+    <button onClick={onClick} disabled={disabled}>Custom linkedin element</button>
+  )}
+/>
 ```
 
 ## Demo
