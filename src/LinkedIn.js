@@ -28,11 +28,22 @@ export class LinkedIn extends Component {
   }
 
   receiveMessage = (event) => {
+    const { state }  = this.props;
     if (event.origin === window.location.origin) {
       if (event.data.errorMessage && event.data.from === 'Linked In') {
+        // Prevent CSRF attack by testing state
+        if (event.data.state!== state) {
+          this.popup && this.popup.close();
+          return;
+        }
         this.props.onFailure(event.data);
         this.popup && this.popup.close();
       } else if (event.data.code && event.data.from === 'Linked In') {
+        // Prevent CSRF attack by testing state
+        if (event.data.state!== state) {
+          this.popup && this.popup.close();
+          return;
+        }
         this.props.onSuccess({ code: event.data.code });
         this.popup && this.popup.close();
       }
