@@ -191,4 +191,3 @@ Please upgrade `react-linkedin-login-oauth2` to latest version following
 npm install --save react-linkedin-login-oauth2
 ```
 ## Known issue
-- `react-linkedin-login-oauth2` currently doesn't support IE 11. IE 11 will be supported in version `1.1.0`
