@@ -29,7 +29,7 @@ class LinkedInPage extends Component {
         <LinkedIn
           clientId="81lx5we2omq9xh"
           redirectUri={`${window.location.origin}/linkedin`}
-          scope="r_fullprofile r_emailaddress w_share"
+          scope="r_emailaddress w_share"
           state="34232423"
           onFailure={this.handleFailure}
           onSuccess={this.handleSuccess}
