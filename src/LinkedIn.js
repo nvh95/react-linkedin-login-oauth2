@@ -2,6 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import '../assets/index.css';
 
+const getPopupPositionProperties = ({
+  width = 600,
+  height = 600,
+}) => {
+  const left = (screen.width / 2) - (width / 2);
+  const top = (screen.height / 2) - (height / 2);
+  return `left=${left},top=${top},width=${width},height=${height}`;
+}
+
 export class LinkedIn extends Component {
   static propTypes = {
     className: PropTypes.string,
@@ -20,9 +29,8 @@ export class LinkedIn extends Component {
   }
 
   getUrl = () => {
-    const {redirectUri, clientId, state, scope, supportIE, redirectPath } = this.props;
-    // TODO: Support IE 11
-    const scopeParam = (scope) ? `&scope=${supportIE ? scope : encodeURI(scope)}` : '';
+    const { redirectUri, clientId, state, scope, supportIE, redirectPath } = this.props;
+    const scopeParam = `&scope=${supportIE ? scope : encodeURI(scope)}`;
     const linkedInAuthenLink = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}${scopeParam}&state=${state}`;
     if (supportIE) {
       const redirectLink = `${window.location.origin}${redirectPath}?linkedin_redirect_url=${encodeURIComponent(linkedInAuthenLink)}`;
@@ -32,11 +40,11 @@ export class LinkedIn extends Component {
   }
 
   receiveMessage = (event) => {
-    const { state }  = this.props;
+    const { state } = this.props;
     if (event.origin === window.location.origin) {
       if (event.data.errorMessage && event.data.from === 'Linked In') {
         // Prevent CSRF attack by testing state
-        if (event.data.state!== state) {
+        if (event.data.state !== state) {
           this.popup && this.popup.close();
           return;
         }
@@ -44,7 +52,7 @@ export class LinkedIn extends Component {
         this.popup && this.popup.close();
       } else if (event.data.code && event.data.from === 'Linked In') {
         // Prevent CSRF attack by testing state
-        if (event.data.state!== state) {
+        if (event.data.state !== state) {
           this.popup && this.popup.close();
           return;
         }
@@ -59,7 +67,7 @@ export class LinkedIn extends Component {
       e.preventDefault();
     }
     this.props.onClick && this.props.onClick();
-    this.popup = window.open(this.getUrl(), '_blank', 'width=600,height=600');
+    this.popup = window.open(this.getUrl(), '_blank', getPopupPositionProperties({ width: 600, height: 600 }));
     window.removeEventListener('message', this.receiveMessage, false);
     window.addEventListener('message', this.receiveMessage, false);
   }
@@ -90,6 +98,7 @@ LinkedIn.defaultProps = {
   children: (<img src={require('../assets/linkedin.png')} alt="Log in with Linked In" style={{ maxWidth: '180px' }} />),
   state: 'fdsf78fyds7fm',
   supportIE: false,
-  redirectPath: '/linkedin'
+  redirectPath: '/linkedin',
+  scope: 'r_emailaddress',
 };
 export default LinkedIn;

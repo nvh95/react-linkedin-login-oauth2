@@ -8,7 +8,7 @@
 [npm]: https://www.npmjs.org/package/react-linkedin-login-oauth2
 
 
-Demo: https://stupefied-goldberg-b44ee5.netlify.com/
+Demo: https://stupefied-goldberg-b44ee5.netlify.app/
 
 This package is used to get authorization code for Linked In Log in feature using OAuth2 in a easy way, without redirecting your application to linked in authorization page. After have the authorization code, you can send it to server to continue to get information needed. For more, please see at [Authenticating with OAuth 2.0 - Linked In](https://developer.linkedin.com/docs/oauth2)  
 See `demo/src/index.js` for examples.  
@@ -157,21 +157,22 @@ Or via this link:
 ## Props
 `LinkedIn` component:  
 
-| Parameter   | value    | is required |         default         |
-|-------------|----------|:-----------:|:-----------------------:|
-| clientId    | string   |     yes     |                         |
-| redirectUri | string   |     yes     |                         |
-| scope       | string   |      no     |Default member permissions defined in application configuration|
-| state       | string   |      no     |      fdsf78fyds7fm      |
-| onSuccess   | function |     yes     |                         |
-| onFailure   | function |     yes     |                         |
-| className   | string   |      no     |      'btn-linkedin'     |
-| disabled    | boolean  |      no     |          false          |
-| onClick     | function |      no     |                         |
-| children    | function |      no     | Linked in Signin button |
-| renderElement | function |      no     | Render prop to use a custom element, use props.onClick |
-| supportIE   | boolean |      no     | false |
-| redirectPath | function |      no     | /linkedin |
+| Parameter     | value    | is required | default                                                                            |
+|---------------|----------|:-----------:|:----------------------------------------------------------------------------------:|
+| clientId      | string   | yes         |                                                                                    |
+| redirectUri   | string   | yes         |                                                                                    |
+| scope         | string   | yes         | 'r_emailaddress'                                                                   |
+|               |          |             | See your app scope in `https://www.linkedin.com/developers/apps/${yourAppId}/auth` |
+| onSuccess     | function | yes         |                                                                                    |
+| onFailure     | function | yes         |                                                                                    |
+| state         | string   | no          | fdsf78fyds7fm                                                                      |
+| className     | string   | no          | 'btn-linkedin'                                                                     |
+| disabled      | boolean  | no          | false                                                                              |
+| onClick       | function | no          |                                                                                    |
+| children      | function | no          | Linked in Signin button                                                            |
+| renderElement | function | no          | Render prop to use a custom element, use props.onClick                             |
+| supportIE     | boolean  | no          | false                                                                              |
+| redirectPath  | function | no          | /linkedin                                                                          |
 
 Read more about props here [https://developer.linkedin.com/docs/oauth2](https://developer.linkedin.com/docs/oauth2)
 
