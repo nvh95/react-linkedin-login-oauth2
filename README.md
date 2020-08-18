@@ -25,11 +25,7 @@ See `demo/src/index.js` for examples.
 - [Issues](#issues)
 
 ## Changelog
-### 1.0.7
-- Remove unnecessary `console.log`  
-- Be able to render custom element (Thank @YBeck for your contribution)
-- Support IE11, please see #support-ie for more detail
-- Check `state` to avoid CSRF attack
+See [CHANGELOG.md](https://github.com/nvh95/react-linkedin-login-oauth2/blob/master/CHANGELOG.md)
 
 ## Installation
 ```
