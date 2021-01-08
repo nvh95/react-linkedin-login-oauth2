@@ -153,22 +153,22 @@ Or via this link:
 ## Props
 `LinkedIn` component:  
 
-| Parameter     | value    | is required | default                                                                            |
-|---------------|----------|:-----------:|:----------------------------------------------------------------------------------:|
-| clientId      | string   | yes         |                                                                                    |
-| redirectUri   | string   | yes         |                                                                                    |
-| scope         | string   | yes         | 'r_emailaddress'                                                                   |
-|               |          |             | See your app scope in `https://www.linkedin.com/developers/apps/${yourAppId}/auth` |
-| onSuccess     | function | yes         |                                                                                    |
-| onFailure     | function | yes         |                                                                                    |
-| state         | string   | no          | fdsf78fyds7fm                                                                      |
-| className     | string   | no          | 'btn-linkedin'                                                                     |
-| disabled      | boolean  | no          | false                                                                              |
-| onClick       | function | no          |                                                                                    |
-| children      | function | no          | Linked in Signin button                                                            |
-| renderElement | function | no          | Render prop to use a custom element, use props.onClick                             |
-| supportIE     | boolean  | no          | false                                                                              |
-| redirectPath  | function | no          | /linkedin                                                                          |
+| Parameter     | value           | is required | default                                                                            |
+|---------------|-----------------|:-----------:|:----------------------------------------------------------------------------------:|
+| clientId      | string          | yes         |                                                                                    |
+| redirectUri   | string          | yes         |                                                                                    |
+| scope         | Array<string>   | yes         | ['r_emailaddress']                                                                 |
+|               |                 |             | See your app scope in `https://www.linkedin.com/developers/apps/${yourAppId}/auth` |
+| onSuccess     | function        | yes         |                                                                                    |
+| onFailure     | function        | yes         |                                                                                    |
+| state         | string          | no          | fdsf78fyds7fm                                                                      |
+| className     | string          | no          | 'btn-linkedin'                                                                     |
+| disabled      | boolean         | no          | false                                                                              |
+| onClick       | function        | no          |                                                                                    |
+| children      | function        | no          | Linked in Signin button                                                            |
+| renderElement | function        | no          | Render prop to use a custom element, use props.onClick                             |
+| supportIE     | boolean         | no          | false                                                                              |
+| redirectPath  | function        | no          | /linkedin                                                                          |
 
 Read more about props here [https://developer.linkedin.com/docs/oauth2](https://developer.linkedin.com/docs/oauth2)
 
