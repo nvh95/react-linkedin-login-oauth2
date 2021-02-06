@@ -40,6 +40,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "phillipDenness",
+      "name": "Phillip Denness",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7850970?v=4",
+      "profile": "https://www.linkedin.com/in/phillipdenness/",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
