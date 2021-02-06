@@ -13,8 +13,8 @@
 
 Demo: https://stupefied-goldberg-b44ee5.netlify.app/
 
-This package is used to get authorization code for Linked In Log in feature using OAuth2 in a easy way, without redirecting your application to linked in authorization page. After have the authorization code, you can send it to server to continue to get information needed. For more, please see at [Authenticating with OAuth 2.0 - Linked In](https://developer.linkedin.com/docs/oauth2)  
-See `demo/src/index.js` for examples.  
+This package is used to get authorization code for Linked In Log in feature using OAuth2 in a easy way. After have the authorization code, you can send it to server to continue to get information needed. For more, please see at [Authenticating with OAuth 2.0 - Linked In](https://developer.linkedin.com/docs/oauth2)  
+See [Usage](#usage) and [Demo](#demo) for instruction.  
 
 ## Table of contents
 - [Changelog](#changelog)
@@ -143,17 +143,8 @@ Earlier, this package might not work in IE11. The reason is that if popup and op
 ```
 
 ## Demo
-You can see demo via this [https://github.com/nvh95/react-linkedin-login-oauth2/tree/master/demo/src](https://github.com/nvh95/react-linkedin-login-oauth2/tree/master/demo/src)  
-Demo 1: [Use react-router-dom](https://github.com/nvh95/react-linkedin-login-oauth2/blob/master/demo/src/index.js)  
-Demo 2: [Not use react-router-dom](https://github.com/nvh95/react-linkedin-login-oauth2/blob/master/demo/src/index1.js)  
-Or run 
-```
-git clone https://github.com/nvh95/react-linkedin-login-oauth2
-cd react-linkedin-login-oauth2
-npm start
-```
-Or via this link:
-[https://stupefied-goldberg-b44ee5.netlify.com/](https://stupefied-goldberg-b44ee5.netlify.com/)
+- Source code: https://github.com/nvh95/react-linkedin-login-oauth2-demo
+- Online demo: [https://stupefied-goldberg-b44ee5.netlify.com/](https://stupefied-goldberg-b44ee5.netlify.com/)
 ## Props
 `LinkedIn` component:  
 
