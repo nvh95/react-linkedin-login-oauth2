@@ -44,6 +44,7 @@ First, we create a button and provide required props
 import React, { Component } from 'react';
 
 import { LinkedIn } from 'react-linkedin-login-oauth2';
+import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png'
 
 class LinkedInPage extends Component {
   state = {
@@ -76,7 +77,7 @@ class LinkedInPage extends Component {
           onSuccess={this.handleSuccess}
           redirectUri="http://localhost:3000/linkedin"
         >
-          <img src={require('./assets/linkedin.png')} alt="Log in with Linked In" style={{ maxWidth: '180px' }} />
+          <img src={linkedin} alt="Log in with Linked In" style={{ maxWidth: '180px' }} />
         </LinkedIn>
         {!code && <div>No code</div>}
         {code && <div>Code: {code}</div>}
@@ -164,8 +165,8 @@ Or via this link:
 |               |          |             | See your app scope in `https://www.linkedin.com/developers/apps/${yourAppId}/auth` |
 | onSuccess     | function | yes         |                                                                                    |
 | onFailure     | function | yes         |                                                                                    |
-| state         | string   | no          | fdsf78fyds7fm                                                                      |
 | className     | string   | no          | 'btn-linkedin'                                                                     |
+| style         | object   | no          |                                                                                    |
 | disabled      | boolean  | no          | false                                                                              |
 | onClick       | function | no          |                                                                                    |
 | children      | function | no          | Linked in Signin button                                                            |
@@ -173,7 +174,7 @@ Or via this link:
 | supportIE     | boolean  | no          | false                                                                              |
 | redirectPath  | function | no          | /linkedin                                                                          |
 
-Read more about props here [https://developer.linkedin.com/docs/oauth2](https://developer.linkedin.com/docs/oauth2)
+Read more about props here [https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow?context=linkedin/context#step-2-request-an-authorization-code](https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow?context=linkedin/context#step-2-request-an-authorization-code)
 
 `LinkedinPopUp` component:  
 No parameters needed  
