@@ -142,7 +142,7 @@ Earlier, this package might not work in IE11. The reason is that if popup and op
 ```
 
 ## Demo
-- Source code: https://github.com/nvh95/react-linkedin-login-oauth2-demo
+- Source code: https://github.com/nvh95/react-linkedin-login-oauth2-demo/blob/master/src/App.js
 - Online demo: [https://stupefied-goldberg-b44ee5.netlify.com/](https://stupefied-goldberg-b44ee5.netlify.com/)
 ## Props
 `LinkedIn` component:  
