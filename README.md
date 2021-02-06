@@ -24,7 +24,6 @@ See [Usage](#usage) and [Demo](#demo) for instruction.
 - [Support IE](#support-ie)
 - [Demo](#demo)
 - [Props](#props)
-- [Contribution](#contribution)
 - [Issues](#issues)
 
 ## Changelog
@@ -170,13 +169,9 @@ Read more about props here [https://docs.microsoft.com/en-us/linkedin/shared/aut
 `LinkedinPopUp` component:  
 No parameters needed  
 
-## Contribution  
-All helps are welcome. Please open a PR and describe what do you want to improve. 
-
-I would like to thank @Songuku95 and @YBeck for your contributions to this package.
-
 ## Issues  
 Please create an issue at [https://github.com/nvh95/react-linkedin-login-oauth2/issues](https://github.com/nvh95/react-linkedin-login-oauth2/issues). I will spend time to help you.
+
 #### Failed to minify the code from this file: ./node_modules/react-linkedin-login-oauth2/node_modules/query-string/index.js:8
 Please upgrade `react-linkedin-login-oauth2` to latest version following
 ```
