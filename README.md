@@ -13,8 +13,8 @@
 
 Demo: https://stupefied-goldberg-b44ee5.netlify.app/
 
-This package is used to get authorization code for Linked In Log in feature using OAuth2 in a easy way, without redirecting your application to linked in authorization page. After have the authorization code, you can send it to server to continue to get information needed. For more, please see at [Authenticating with OAuth 2.0 - Linked In](https://developer.linkedin.com/docs/oauth2)  
-See `demo/src/index.js` for examples.  
+This package is used to get authorization code for Linked In Log in feature using OAuth2 in a easy way. After have the authorization code, you can send it to server to continue to get information needed. For more, please see at [Authenticating with OAuth 2.0 - Linked In](https://developer.linkedin.com/docs/oauth2)  
+See [Usage](#usage) and [Demo](#demo) for instruction.  
 
 ## Table of contents
 - [Changelog](#changelog)
@@ -24,7 +24,6 @@ See `demo/src/index.js` for examples.
 - [Support IE](#support-ie)
 - [Demo](#demo)
 - [Props](#props)
-- [Contribution](#contribution)
 - [Issues](#issues)
 
 ## Changelog
@@ -44,6 +43,7 @@ First, we create a button and provide required props
 import React, { Component } from 'react';
 
 import { LinkedIn } from 'react-linkedin-login-oauth2';
+import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png'
 
 class LinkedInPage extends Component {
   state = {
@@ -76,7 +76,7 @@ class LinkedInPage extends Component {
           onSuccess={this.handleSuccess}
           redirectUri="http://localhost:3000/linkedin"
         >
-          <img src={require('./assets/linkedin.png')} alt="Log in with Linked In" style={{ maxWidth: '180px' }} />
+          <img src={linkedin} alt="Log in with Linked In" style={{ maxWidth: '180px' }} />
         </LinkedIn>
         {!code && <div>No code</div>}
         {code && <div>Code: {code}</div>}
@@ -142,17 +142,8 @@ Earlier, this package might not work in IE11. The reason is that if popup and op
 ```
 
 ## Demo
-You can see demo via this [https://github.com/nvh95/react-linkedin-login-oauth2/tree/master/demo/src](https://github.com/nvh95/react-linkedin-login-oauth2/tree/master/demo/src)  
-Demo 1: [Use react-router-dom](https://github.com/nvh95/react-linkedin-login-oauth2/blob/master/demo/src/index.js)  
-Demo 2: [Not use react-router-dom](https://github.com/nvh95/react-linkedin-login-oauth2/blob/master/demo/src/index1.js)  
-Or run 
-```
-git clone https://github.com/nvh95/react-linkedin-login-oauth2
-cd react-linkedin-login-oauth2
-npm start
-```
-Or via this link:
-[https://stupefied-goldberg-b44ee5.netlify.com/](https://stupefied-goldberg-b44ee5.netlify.com/)
+- Source code: https://github.com/nvh95/react-linkedin-login-oauth2-demo/blob/master/src/App.js
+- Online demo: [https://stupefied-goldberg-b44ee5.netlify.com/](https://stupefied-goldberg-b44ee5.netlify.com/)
 ## Props
 `LinkedIn` component:  
 
@@ -164,8 +155,8 @@ Or via this link:
 |               |          |             | See your app scope in `https://www.linkedin.com/developers/apps/${yourAppId}/auth` |
 | onSuccess     | function | yes         |                                                                                    |
 | onFailure     | function | yes         |                                                                                    |
-| state         | string   | no          | fdsf78fyds7fm                                                                      |
 | className     | string   | no          | 'btn-linkedin'                                                                     |
+| style         | object   | no          |                                                                                    |
 | disabled      | boolean  | no          | false                                                                              |
 | onClick       | function | no          |                                                                                    |
 | children      | function | no          | Linked in Signin button                                                            |
@@ -173,18 +164,14 @@ Or via this link:
 | supportIE     | boolean  | no          | false                                                                              |
 | redirectPath  | function | no          | /linkedin                                                                          |
 
-Read more about props here [https://developer.linkedin.com/docs/oauth2](https://developer.linkedin.com/docs/oauth2)
+Read more about props here [https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow?context=linkedin/context#step-2-request-an-authorization-code](https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow?context=linkedin/context#step-2-request-an-authorization-code)
 
 `LinkedinPopUp` component:  
 No parameters needed  
 
-## Contribution  
-All helps are welcome. Please open a PR and describe what do you want to improve. 
-
-I would like to thank @Songuku95 and @YBeck for your contributions to this package.
-
 ## Issues  
 Please create an issue at [https://github.com/nvh95/react-linkedin-login-oauth2/issues](https://github.com/nvh95/react-linkedin-login-oauth2/issues). I will spend time to help you.
+
 #### Failed to minify the code from this file: ./node_modules/react-linkedin-login-oauth2/node_modules/query-string/index.js:8
 Please upgrade `react-linkedin-login-oauth2` to latest version following
 ```
