@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "nvh95",
+      "name": "Hung Viet Nguyen",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8603085?v=4",
+      "profile": "https://hung.dev",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "react-linkedin-login-oauth2",
+  "projectOwner": "nvh95",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
