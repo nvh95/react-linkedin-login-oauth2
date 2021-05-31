@@ -18,13 +18,14 @@
     "start": "nwb serve-react-demo",
     "test": "nwb test-react",
     "test:coverage": "nwb test-react --coverage",
-    "test:watch": "nwb test-react --server"
+    "test:watch": "nwb test-react --server",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "query-string": "~5.1.1"
   },
   "peerDependencies": {
-    "react": "16.x"
+    "react": "16.x || 17.x"
   },
   "devDependencies": {
     "enzyme": "^3.6.0",
