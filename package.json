@@ -1,6 +1,6 @@
 {
   "name": "react-linkedin-login-oauth2",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "React component for Linked In Log In feature using OAuth 2.0",
   "main": "lib/index.js",
   "module": "es/index.js",
