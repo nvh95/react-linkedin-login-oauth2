@@ -1,9 +1,9 @@
 import { Component } from "react";
-import QueryString from "query-string";
+import { parse } from "./utils";
 
-class LinkedInPopUp extends Component {
+export class LinkedInCallback extends Component {
   componentDidMount() {
-    const params = QueryString.parse(window.location.search);
+    const params = parse(window.location.search);
     if (params.error) {
       const errorMessage =
         params.error_description || "Login failed. Please try again.";
@@ -37,5 +37,3 @@ class LinkedInPopUp extends Component {
     return null;
   }
 }
-
-export default LinkedInPopUp;

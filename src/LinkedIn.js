@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 
 const getPopupPositionProperties = ({ width = 600, height = 600 }) => {
   const left = screen.width / 2 - width / 2;
@@ -21,17 +20,6 @@ const generateRandomString = (length = 20) => {
 const LINKEDIN_OAUTH2_STATE = "linkedin_oauth2_state";
 
 export class LinkedIn extends Component {
-  static propTypes = {
-    className: PropTypes.string,
-    onFailure: PropTypes.func.isRequired,
-    onSuccess: PropTypes.func.isRequired,
-    onClick: PropTypes.func,
-    disabled: PropTypes.bool,
-    clientId: PropTypes.string.isRequired,
-    redirectUri: PropTypes.string.isRequired,
-    renderElement: PropTypes.func,
-  };
-
   componentWillUnmount() {
     window.removeEventListener("message", this.receiveMessage, false);
     if (this.popup && !this.popup.closed) this.popup.close();
@@ -140,4 +128,3 @@ LinkedIn.defaultProps = {
   redirectPath: "/linkedin",
   scope: "r_emailaddress",
 };
-export default LinkedIn;
