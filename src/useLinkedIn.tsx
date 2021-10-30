@@ -25,6 +25,7 @@ export function useLinkedIn({
   onSuccess,
   onError,
   scope = 'r_emailaddress',
+  state = '',
   closePopupMessage = 'User closed the popup',
 }: useLinkedInType) {
   const popupRef = useRef<Window>(null);
@@ -32,11 +33,11 @@ export function useLinkedIn({
 
   const receiveMessage = useCallback(
     (event: MessageEvent) => {
-      const state = localStorage.getItem(LINKEDIN_OAUTH2_STATE);
+      const savedState = localStorage.getItem(LINKEDIN_OAUTH2_STATE);
       if (event.origin === window.location.origin) {
         if (event.data.errorMessage && event.data.from === 'Linked In') {
           // Prevent CSRF attack by testing state
-          if (event.data.state !== state) {
+          if (event.data.state !== savedState) {
             popupRef.current && popupRef.current.close();
             return;
           }
@@ -44,7 +45,7 @@ export function useLinkedIn({
           popupRef.current && popupRef.current.close();
         } else if (event.data.code && event.data.from === 'Linked In') {
           // Prevent CSRF attack by testing state
-          if (event.data.state !== state) {
+          if (event.data.state !== savedState) {
             console.error('State does not match');
             popupRef.current && popupRef.current.close();
             return;
@@ -81,9 +82,9 @@ export function useLinkedIn({
 
   const getUrl = () => {
     const scopeParam = `&scope=${encodeURI(scope)}`;
-    const state = generateRandomString();
-    localStorage.setItem(LINKEDIN_OAUTH2_STATE, state);
-    const linkedInAuthLink = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}${scopeParam}&state=${state}`;
+    const generatedState = state || generateRandomString();
+    localStorage.setItem(LINKEDIN_OAUTH2_STATE, generatedState);
+    const linkedInAuthLink = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}${scopeParam}&state=${generatedState}`;
     return linkedInAuthLink;
   };
 

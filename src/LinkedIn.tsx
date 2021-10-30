@@ -7,6 +7,7 @@ export function LinkedIn({
   clientId,
   onSuccess,
   onError,
+  state,
   scope,
   closePopupMessage,
 }: LinkedInType) {
@@ -15,6 +16,7 @@ export function LinkedIn({
     clientId,
     onSuccess,
     onError,
+    state,
     scope,
     closePopupMessage,
   });

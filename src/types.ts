@@ -9,6 +9,7 @@ export interface useLinkedInType {
     error: string;
     errorMessage: string;
   }) => void;
+  state?: string;
   scope?: string;
   closePopupMessage?: string;
 }
