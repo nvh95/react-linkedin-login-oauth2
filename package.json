@@ -5,10 +5,7 @@
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "files": [
-    "css",
-    "es",
-    "lib",
-    "umd",
+    "build",
     "assets"
   ],
   "scripts": {
@@ -19,10 +16,11 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "prettier": "prettier src --write",
-    "lint": "eslint src --fix"
+    "lint": "eslint src --fix",
+    "publish:local": "export BUILD_MODE=dev &&npm publish --registry http://localhost:4873",
+    "vite": "vite ./preview"
   },
   "dependencies": {
-    "jest": "^27.3.1",
     "typescript": "^4.4.4"
   },
   "peerDependencies": {
@@ -45,6 +43,8 @@
     "babel-preset-react-app": "^10.0.0",
     "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-react-hooks": "^4.2.1-alpha-9c8161ba8-20211028",
+    "jest": "^27.3.1",
     "prettier": "^2.4.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -52,7 +52,9 @@
     "rimraf": "^3.0.2",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-terser": "^7.0.2",
-    "sass-loader": "^12.3.0"
+    "sass-loader": "^12.3.0",
+    "vite": "^2.6.13",
+    "vite-react-jsx": "^1.1.2"
   },
   "author": "nvh95",
   "homepage": "https://github.com/nvh95/react-linkedin-login-oauth2",

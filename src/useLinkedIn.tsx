@@ -22,7 +22,7 @@ type LinkedInType = {
   redirectUri: string;
   clientId: string;
   onSuccess: (code: string) => void;
-  onFailure?: ({
+  onError?: ({
     error,
     errorMessage,
   }: {
@@ -30,16 +30,46 @@ type LinkedInType = {
     errorMessage: string;
   }) => void;
   scope?: string;
+  closePopupMessage?: string;
 };
 
 export function useLinkedIn({
   redirectUri,
   clientId,
   onSuccess,
-  onFailure,
+  onError,
   scope = 'r_emailaddress',
+  closePopupMessage = 'User closed the popup',
 }: LinkedInType) {
   const popupRef = useRef<Window>(null);
+  const popUpIntervalRef = useRef<number>(null);
+
+  const receiveMessage = useCallback(
+    (event: MessageEvent) => {
+      const state = localStorage.getItem(LINKEDIN_OAUTH2_STATE);
+      if (event.origin === window.location.origin) {
+        if (event.data.errorMessage && event.data.from === 'Linked In') {
+          // Prevent CSRF attack by testing state
+          if (event.data.state !== state) {
+            popupRef.current && popupRef.current.close();
+            return;
+          }
+          onError && onError(event.data);
+          popupRef.current && popupRef.current.close();
+        } else if (event.data.code && event.data.from === 'Linked In') {
+          // Prevent CSRF attack by testing state
+          if (event.data.state !== state) {
+            console.error('State does not match');
+            popupRef.current && popupRef.current.close();
+            return;
+          }
+          onSuccess && onSuccess(event.data.code);
+          popupRef.current && popupRef.current.close();
+        }
+      }
+    },
+    [onError, onSuccess],
+  );
 
   useEffect(() => {
     return () => {
@@ -49,8 +79,19 @@ export function useLinkedIn({
         popupRef.current.close();
         popupRef.current = null;
       }
+      if (popUpIntervalRef.current) {
+        window.clearInterval(popUpIntervalRef.current);
+        popUpIntervalRef.current = null;
+      }
     };
-  }, []);
+  }, [receiveMessage]);
+
+  useEffect(() => {
+    window.addEventListener('message', receiveMessage, false);
+    return () => {
+      window.removeEventListener('message', receiveMessage, false);
+    };
+  }, [receiveMessage]);
 
   const getUrl = () => {
     const scopeParam = `&scope=${encodeURI(scope)}`;
@@ -61,38 +102,36 @@ export function useLinkedIn({
   };
 
   const linkedInLogin = () => {
-    window.removeEventListener('message', receiveMessage, false);
+    popupRef.current?.close();
     popupRef.current = window.open(
       getUrl(),
       '_blank',
       getPopupPositionProperties({ width: 600, height: 600 }),
     );
-    window.addEventListener('message', receiveMessage, false);
-  };
 
-  const receiveMessage = useCallback((event: MessageEvent) => {
-    const state = localStorage.getItem(LINKEDIN_OAUTH2_STATE);
-    if (event.origin === window.location.origin) {
-      if (event.data.errorMessage && event.data.from === 'Linked In') {
-        // Prevent CSRF attack by testing state
-        if (event.data.state !== state) {
-          popupRef.current && popupRef.current.close();
-          return;
-        }
-        onFailure(event.data);
-        popupRef.current && popupRef.current.close();
-      } else if (event.data.code && event.data.from === 'Linked In') {
-        // Prevent CSRF attack by testing state
-        if (event.data.state !== state) {
-          console.error('State does not match');
-          popupRef.current && popupRef.current.close();
-          return;
-        }
-        onSuccess(event.data.code);
-        popupRef.current && popupRef.current.close();
-      }
+    if (popUpIntervalRef.current) {
+      window.clearInterval(popUpIntervalRef.current);
+      popUpIntervalRef.current = null;
     }
-  }, []);
+    popUpIntervalRef.current = window.setInterval(() => {
+      try {
+        if (popupRef.current && popupRef.current.closed) {
+          window.clearInterval(popUpIntervalRef.current);
+          popUpIntervalRef.current = null;
+          if (onError) {
+            onError({
+              error: 'user_closed_popup',
+              errorMessage: closePopupMessage,
+            });
+          }
+        }
+      } catch (error) {
+        console.error(error);
+        window.clearInterval(popUpIntervalRef.current);
+        popUpIntervalRef.current = null;
+      }
+    }, 1000);
+  };
 
   return {
     linkedInLogin,

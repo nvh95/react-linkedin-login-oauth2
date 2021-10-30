@@ -25,11 +25,13 @@ export default {
     commonjs(),
     typescript({ useTsconfigDeclarationDir: true }),
 
-    terser({
-      output: { comments: false },
-      compress: {
-        drop_console: true,
-      },
-    }),
+    // eslint-disable-next-line no-undef
+    process.env.BUILD_MODE !== 'dev' &&
+      terser({
+        output: { comments: false },
+        compress: {
+          drop_console: true,
+        },
+      }),
   ],
 };
