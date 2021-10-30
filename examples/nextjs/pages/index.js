@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 
 import styles from '../styles/Home.module.css';
-import linkedin from '../../../assets/linkedin.png';
-import { useLinkedIn } from '../../../build/index.esm';
+import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png';
+import { useLinkedIn } from 'react-linkedin-login-oauth2';
 
 export default function Home() {
   const [code, setCode] = useState('');
@@ -21,7 +20,7 @@ export default function Home() {
       setCode(code);
     },
     scope: 'r_emailaddress',
-    onFailure: (error) => {
+    onError: (error) => {
       console.log(error);
       setErrorMessage(error.errorMessage);
     },
@@ -43,19 +42,13 @@ export default function Home() {
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.js</code>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              linkedInLogin();
-            }}
-          >
-            <Image
-              src={linkedin}
-              alt="Log in with Linked In"
-              width={180}
-              height={32}
-            />
-          </button>
+          <Image
+            src={linkedin}
+            alt="Log in with Linked In"
+            width={180}
+            height={32}
+            onClick={linkedInLogin}
+          />
           {!code && <div>No code</div>}
           {code && <div>Code: {code}</div>}
           {errorMessage && <div>{errorMessage}</div>}
