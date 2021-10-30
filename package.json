@@ -20,9 +20,6 @@
     "publish:local": "export BUILD_MODE=dev &&npm publish --registry http://localhost:4873",
     "vite": "vite ./preview"
   },
-  "dependencies": {
-    "typescript": "^4.4.4"
-  },
   "peerDependencies": {
     "react": "16.x || 17.x",
     "react-dom": "16.x || 17.x"
@@ -53,6 +50,7 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-terser": "^7.0.2",
     "sass-loader": "^12.3.0",
+    "typescript": "^4.4.4",
     "vite": "^2.6.13",
     "vite-react-jsx": "^1.1.2"
   },
