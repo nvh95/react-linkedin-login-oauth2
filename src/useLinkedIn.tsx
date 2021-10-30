@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
+import { useLinkedInType } from './types';
 import { LINKEDIN_OAUTH2_STATE } from './utils';
 
 const getPopupPositionProperties = ({ width = 600, height = 600 }) => {
@@ -18,21 +19,6 @@ const generateRandomString = (length = 20) => {
   return result;
 };
 
-type LinkedInType = {
-  redirectUri: string;
-  clientId: string;
-  onSuccess: (code: string) => void;
-  onError?: ({
-    error,
-    errorMessage,
-  }: {
-    error: string;
-    errorMessage: string;
-  }) => void;
-  scope?: string;
-  closePopupMessage?: string;
-};
-
 export function useLinkedIn({
   redirectUri,
   clientId,
@@ -40,7 +26,7 @@ export function useLinkedIn({
   onError,
   scope = 'r_emailaddress',
   closePopupMessage = 'User closed the popup',
-}: LinkedInType) {
+}: useLinkedInType) {
   const popupRef = useRef<Window>(null);
   const popUpIntervalRef = useRef<number>(null);
 

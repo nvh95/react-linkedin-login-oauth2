@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { LinkedInCallback } from '../src/LinkedInCallback';
-import LinkedInPage from './LinkedInPage';
+// import LinkedInPage from './LinkedInPageHook';
+import LinkedInPage from './LinkedInPageRenderProps';
 
 function App() {
   return (

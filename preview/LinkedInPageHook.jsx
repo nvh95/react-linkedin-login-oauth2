@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useLinkedIn } from '../src/useLinkedIn';
 import linkedin from '../assets/linkedin.png';
@@ -17,19 +17,19 @@ function LinkedInPage() {
       setErrorMessage(error.errorMessage);
     },
   });
-  const [code, setCode] = React.useState('');
-  const [errorMessage, setErrorMessage] = React.useState('');
+  const [code, setCode] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   return (
     <div>
-      <div style={{ cursor: 'pointer' }} onClick={linkedInLogin}>
-        <img
-          src={linkedin}
-          alt="Log in with Linked In"
-          style={{ maxWidth: '180px' }}
-        />
-      </div>
-
+      hooks
+      <br />
+      <img
+        onClick={linkedInLogin}
+        src={linkedin}
+        alt="Sign in with Linked In"
+        style={{ maxWidth: '180px', cursor: 'pointer' }}
+      />
       {!code && <div>No code</div>}
       {code && <div>Code: {code}</div>}
       {errorMessage && <div>{errorMessage}</div>}
