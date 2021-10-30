@@ -13,7 +13,7 @@
 
 Demo: https://stupefied-goldberg-b44ee5.netlify.app/
 
-This package is used to get authorization code for Linked In Log in feature using OAuth2 in a easy way. After have the authorization code, you can send it to server to continue to get information needed. For more, please see at [Authenticating with OAuth 2.0 - Linked In](https://developer.linkedin.com/docs/oauth2)  
+This package is used to get authorization code for Linked In Log in feature using OAuth2 in a easy way. After have the authorization code, you can exchange to an access token by sending it to the server to continue to get information needed. For more details, please see at [Authorization Code Flow (3-legged OAuth)](https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow)  
 See [Usage](#usage) and [Demo](#demo) for instruction.
 
 ## Table of contents
@@ -34,153 +34,138 @@ See [CHANGELOG.md](https://github.com/nvh95/react-linkedin-login-oauth2/blob/mas
 ## Installation
 
 ```
-npm install --save react-linkedin-login-oauth2
+npm install --save react-linkedin-login-oauth2@alpha
 ```
 
 ## Overview
 
-We will create a Linked In button (using `LinkedIn` component), after clicking on this button, a popup window will show up and ask for the permission. After we accepted, the pop up window will redirect to a specified URI which should be routed to `LinkedInCallback` component. It has responsible to notice our openning app the authorization code Linked In provides us. You can consider using `react-router-dom` as a possible solution.
+We will trigger `linkedInLogin` by using `useLinkedIn` (recommended) or `LinkedIn` (using render props technique) after click on Sign in with LinkedIn button, a popup window will show up and ask for the permission. After we accepted, the pop up window will redirect to `redirectUri` (should be `LinkedInCallback` component) then notice its opener about the authorization code Linked In provides us. You can use [react-router-dom](https://reactrouter.com/web) or [Next.js's file system routing](https://nextjs.org/docs/routing/introduction)
 
 ## Usage
 
-First, we create a button and provide required props
+First, we create a button and provide required props:
 
-```
-import React, { Component } from 'react';
+```js
+import React, { useState } from 'react';
 
-import { LinkedIn } from 'react-linkedin-login-oauth2';
-import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png'
+import { useLinkedIn } from 'react-linkedin-login-oauth2';
+// You can use provided image shipped by this package or using your own
+import linkedin from 'react-linkedin-login-oauth2';
 
-class LinkedInPage extends Component {
-  state = {
-    code: '',
-    errorMessage: '',
-  };
+function LinkedInPage() {
+  const { linkedInLogin } = useLinkedIn({
+    clientId: '86vhj2q7ukf83q',
+    redirectUri: `${window.location.origin}/linkedin`, // for Next.js, you can use `${typeof window === 'object' && window.location.origin}/linkedin`
+    onSuccess: (code) => {
+      console.log(code);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
-
-  handleSuccess = (data) => {
-    this.setState({
-      code: data.code,
-      errorMessage: '',
-    });
-  }
-
-  handleFailure = (error) => {
-    this.setState({
-      code: '',
-      errorMessage: error.errorMessage,
-    });
-  }
-
-  render() {
-    const { code, errorMessage } = this.state;
-    return (
-      <div>
-        <LinkedIn
-          clientId="81lx5we2omq9xh"
-          onFailure={this.handleFailure}
-          onSuccess={this.handleSuccess}
-          redirectUri="http://localhost:3000/linkedin"
-        >
-          <img src={linkedin} alt="Log in with Linked In" style={{ maxWidth: '180px' }} />
-        </LinkedIn>
-        {!code && <div>No code</div>}
-        {code && <div>Code: {code}</div>}
-        {errorMessage && <div>{errorMessage}</div>}
-      </div>
-    );
-  }
+  return (
+    <img
+      onClick={linkedInLogin}
+      src={linkedin}
+      alt="Sign in with Linked In"
+      style={{ maxWidth: '180px', cursor: 'pointer' }}
+    />
+  );
 }
-
-export default LinkedInPage;
 ```
 
-Then we define a route to `redirect_url` and pass `LinkedInCallback` to it as follow:
+If you don't want to use hooks. This library offer render props option:
 
+```js
+import React, { useState } from 'react';
+
+import { LinkedIn } from '../src/LinkedIn';
+// You can use provided image shipped by this package or using your own
+import linkedin from '../assets/linkedin.png';
+
+function LinkedInPage() {
+  return (
+    <LinkedIn
+      clientId="86vhj2q7ukf83q"
+      redirectUri={`${window.location.origin}/linkedin`}
+      onSuccess={(code) => {
+        console.log(code);
+      }}
+      onError={(error) => {
+        console.log(error);
+      }}
+    >
+      {({ linkedInLogin }) => (
+        <img
+          onClick={linkedInLogin}
+          src={linkedin}
+          alt="Sign in with Linked In"
+          style={{ maxWidth: '180px', cursor: 'pointer' }}
+        />
+      )}
+    </LinkedIn>
+  );
+}
 ```
-import React, { Component } from 'react';
+
+Then we point `redirect_url` to `LinkedInCallback`. You can use [react-router-dom](https://reactrouter.com/web) or [Next.js's file system routing](https://nextjs.org/docs/routing/introduction)
+
+- `react-router-dom`:
+
+```js
+import React from 'react';
 import { LinkedInCallback } from 'react-linkedin-login-oauth2';
 
-import { render } from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import LinkedInPage from './LinkedInPage';
 
-class Demo extends Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <Switch >
-          <Route exact path="/linkedin" component={LinkedInCallback} />
-          <Route path="/" component={LinkedInPage} />
-        </Switch>
-      </BrowserRouter>
-    );
-  }
+function Demo() {
+  return (
+    <BrowserRouter>
+      <Route exact path="/linkedin" component={LinkedInCallback} />
+    </BrowserRouter>
+  );
 }
 ```
 
-### Usage with custom button
+- Next.js's file system routing:
 
-You can render your own component by provide `renderElement` as following example:
-
-```
-<LinkedIn
-  clientId="81lx5we2omq9xh"
-  onFailure={this.handleFailure}
-  onSuccess={this.handleSuccess}
-  redirectUri="http://localhost:3000/linkedin"
-  renderElement={({ onClick, disabled }) => (
-    <button onClick={onClick} disabled={disabled}>Custom linkedin element</button>
-  )}
-/>
+```js
+// pages/linkedin.js
+import { LinkedInCallback } from 'react-linkedin-login-oauth2';
+export default function LinkedInPage() {
+  return <LinkedInCallback />;
+}
 ```
 
 # Support IE
 
-Earlier, this package might not work in IE11. The reason is that if popup and opener do not have same domain, popup cannot send message to opener. For more information about this, please visit [here](https://stackoverflow.com/questions/21070553/postmessage-still-broken-on-ie11). From `1.0.7`, we can bypass this by open a popup to our page, then redirect to Linked In authorization page, it should work fine. IE11 is supported in `1.0.7`. Following is step to support it. (If you don't have need to support IE, please ignore this part)
-
-1. Pass prop `supportIE`
-2. Pass `redirectPath` which has path route to `LinkedInCallback` component, default value is `/linkedin` (for above example, `<Route exact path="/linkedin" component={LinkedInCallback} />` => `redirectPath="/linkedin"`)
-
-```
-<LinkedIn
-  ...
-  supportIE
-  redirectPath="/linkedin"
-  ...
-/>
-```
+- Support for IE is dropped from version `2`
 
 ## Demo
 
 - Source code: https://github.com/nvh95/react-linkedin-login-oauth2-demo/blob/master/src/App.js
-- Online demo: [https://stupefied-goldberg-b44ee5.netlify.com/](https://stupefied-goldberg-b44ee5.netlify.com/)
+- In action: [https://stupefied-goldberg-b44ee5.netlify.app/](https://stupefied-goldberg-b44ee5.netlify.app/)
 
 ## Props
 
-`LinkedIn` component:
+- `LinkedIn` component:
 
-| Parameter     | value    | is required |                                      default                                       |
-| ------------- | -------- | :---------: | :--------------------------------------------------------------------------------: |
-| clientId      | string   |     yes     |                                                                                    |
-| redirectUri   | string   |     yes     |                                                                                    |
-| scope         | string   |     yes     |                                  'r_emailaddress'                                  |
-|               |          |             | See your app scope in `https://www.linkedin.com/developers/apps/${yourAppId}/auth` |
-| onSuccess     | function |     yes     |                                                                                    |
-| onFailure     | function |     yes     |                                                                                    |
-| className     | string   |     no      |                                   'btn-linkedin'                                   |
-| style         | object   |     no      |                                                                                    |
-| disabled      | boolean  |     no      |                                       false                                        |
-| onClick       | function |     no      |                                                                                    |
-| children      | function |     no      |                              Linked in Signin button                               |
-| renderElement | function |     no      |               Render prop to use a custom element, use props.onClick               |
-| supportIE     | boolean  |     no      |                                       false                                        |
-| redirectPath  | function |     no      |                                     /linkedin                                      |
+| Parameter   | value    | is required |                                                                                                default                                                                                                |
+| ----------- | -------- | :---------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| clientId    | string   |     yes     |                                                                                                                                                                                                       |
+| redirectUri | string   |     yes     |                                                                                                                                                                                                       |
+| onSuccess   | function |     yes     |                                                                                                                                                                                                       |
+| onFailure   | function |     no      |                                                                                                                                                                                                       |
+| state       | string   |     no      |                                                                      randomly generated string (recommend to keep default value)                                                                      |
+| scope       | string   |     no      |                                                                                           'r_emailaddress'                                                                                            |
+|             |          |             | See your app scope [here](https://docs.microsoft.com/en-us/linkedin/shared/authentication/authentication?context=linkedin/context#permission-types). If there are more than one, delimited by a space |
+| children    | function |     no      |                                                                         Require if using `LinkedIn` component (render props)                                                                          |
 
-Read more about props here [https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow?context=linkedin/context#step-2-request-an-authorization-code](https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow?context=linkedin/context#step-2-request-an-authorization-code)
+Reference: [https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow?context=linkedin/context#step-2-request-an-authorization-code](https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow?context=linkedin/context#step-2-request-an-authorization-code)
 
-`LinkedInCallback` component:  
-No parameters needed
+- `LinkedInCallback` component:  
+  No parameters needed
 
 ## Issues
 
@@ -190,7 +175,7 @@ Please create an issue at [https://github.com/nvh95/react-linkedin-login-oauth2/
 
 Please upgrade `react-linkedin-login-oauth2` to latest version following
 
-```
+```shell
 npm install --save react-linkedin-login-oauth2
 ```
 
