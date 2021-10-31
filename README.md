@@ -36,7 +36,7 @@ See [CHANGELOG.md](https://github.com/nvh95/react-linkedin-login-oauth2/blob/mas
 ## Installation
 
 ```
-npm install --save react-linkedin-login-oauth2@alpha
+npm install --save react-linkedin-login-oauth2@latest
 ```
 
 ## Overview
