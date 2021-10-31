@@ -1,5 +1,7 @@
 # React Linked In Login Using OAuth 2.0
 
+## `react-linkedin-login-oauth2` VERSION `2` IS OUT. [THIS IS MIGRATION GUIDE](./MIGRATION-from-1-to-2.md) FROM `1` TO `2`.
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
