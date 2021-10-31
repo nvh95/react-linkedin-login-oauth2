@@ -67,6 +67,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "uricbonatti",
+      "name": "Uric Bonatti Cardoso",
+      "avatar_url": "https://avatars.githubusercontent.com/u/43557914?v=4",
+      "profile": "http://linkedin.com/in/uric-bonatti-cardoso-820275132/",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
