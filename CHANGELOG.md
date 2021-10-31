@@ -1,6 +1,16 @@
 ## 2.x
 
-- TBD
+### Features
+
+[Pull Request](https://github.com/nvh95/react-linkedin-login-oauth2/pull/50)
+
+- Rewritten in typescript
+- Use functional component
+- Use rollup
+- Fix bugs on Next.js
+- Drop IE support
+- Drop default UI
+- Bring back `state` parameter (optional, randomly generate `state` by default)
 
 ## 1.0.10
 
