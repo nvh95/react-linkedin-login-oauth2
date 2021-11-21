@@ -85,6 +85,17 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "faisalur-rehman",
+      "name": "faisalur-rehman",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66237466?v=4",
+      "profile": "https://github.com/faisalur-rehman",
+      "contributions": [
+        "example",
+        "doc",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
