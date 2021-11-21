@@ -52,7 +52,7 @@ import React, { useState } from 'react';
 
 import { useLinkedIn } from 'react-linkedin-login-oauth2';
 // You can use provided image shipped by this package or using your own
-import linkedin from 'react-linkedin-login-oauth2';
+import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png';
 
 function LinkedInPage() {
   const { linkedInLogin } = useLinkedIn({
@@ -82,9 +82,9 @@ If you don't want to use hooks. This library offer render props option:
 ```js
 import React, { useState } from 'react';
 
-import { LinkedIn } from '../src/LinkedIn';
+import { LinkedIn } from 'react-linkedin-login-oauth2';
 // You can use provided image shipped by this package or using your own
-import linkedin from '../assets/linkedin.png';
+import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png';
 
 function LinkedInPage() {
   return (
