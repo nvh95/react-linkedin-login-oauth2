@@ -119,7 +119,7 @@ Then we point `redirect_url` to `LinkedInCallback`. You can use [react-router-do
 import React from 'react';
 import { LinkedInCallback } from 'react-linkedin-login-oauth2';
 
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 function Demo() {
   return (
