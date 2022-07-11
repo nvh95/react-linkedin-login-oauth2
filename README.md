@@ -3,10 +3,14 @@
 ## `react-linkedin-login-oauth2` VERSION `2` IS OUT. [THIS IS MIGRATION GUIDE](./MIGRATION-from-1-to-2.md) FROM `1` TO `2`.
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-green.svg)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![npm package][npm-badge]][npm]
+[![npm](https://img.shields.io/npm/dt/react-linkedin-login-oauth2)](https://www.npmjs.com/package/react-linkedin-login-oauth2)
 
 [npm-badge]: https://img.shields.io/npm/v/react-linkedin-login-oauth2.png
 [npm]: https://www.npmjs.org/package/react-linkedin-login-oauth2

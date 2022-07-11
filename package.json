@@ -9,18 +9,18 @@
     "assets"
   ],
   "scripts": {
-    "clean": "rimraf es lib",
+    "clean": "rimraf build",
     "prebuild": "npm run clean",
+    "dev": "vite ./preview",
     "build": "rollup -c",
     "prepublishOnly": "npm run build",
     "test": "jest",
     "test:watch": "jest --watch",
     "prettier": "prettier src --write",
     "lint": "eslint src --fix",
-    "publish:local": "export BUILD_MODE=dev &&npm publish --registry http://localhost:4873",
+    "publish:local": "export BUILD_MODE=dev && npm publish --registry http://localhost:4873",
     "publish:alpha": "npm publish --tag alpha",
-    "publish:latest": "npm publish",
-    "vite": "vite ./preview"
+    "publish:latest": "npm publish"
   },
   "peerDependencies": {
     "react": "16.x || 17.x || 18.x",
@@ -38,6 +38,7 @@
     "@types/react": "^17.0.33",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
+    "@vitejs/plugin-react": "^1.3.2",
     "babel-loader": "^8.2.3",
     "babel-preset-react-app": "^10.0.0",
     "eslint": "^8.1.0",
@@ -54,8 +55,7 @@
     "rollup-plugin-typescript2": "^0.32.1",
     "sass-loader": "^12.3.0",
     "typescript": "^4.4.4",
-    "vite": "^2.6.13",
-    "vite-react-jsx": "^1.1.2"
+    "vite": "^2.9.14"
   },
   "author": "nvh95",
   "homepage": "https://github.com/nvh95/react-linkedin-login-oauth2",
