@@ -94,6 +94,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "asanovr",
+      "name": "Ruslan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6459461?v=4",
+      "profile": "https://github.com/asanovr",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
