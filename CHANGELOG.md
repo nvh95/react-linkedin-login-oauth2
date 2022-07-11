@@ -1,6 +1,6 @@
-## 2.x
+# 2.x
 
-### Features
+## Features
 
 [Pull Request](https://github.com/nvh95/react-linkedin-login-oauth2/pull/50)
 
@@ -12,46 +12,46 @@
 - Drop default UI
 - Bring back `state` parameter (optional, randomly generate `state` by default)
 
-## 1.0.10
+# 1.0.10
 
-### Features
+## Features
 
 - Support React ^17.x
 
-## 1.0.9
+# 1.0.9
 
-### Features
+## Features
 
 - Remove prop `state`. It's generated automatically
 - Add `style` prop
 
-### Fixes
+## Fixes
 
 - Remove `index.css` to fix #13, #30
 
-### Chores
+## Chores
 
 - Remove default class `btn-linkedin`
 - Inline button style. (TODO: To use children as renderElement in 2.x)
 - Update README to use image from `react-linkedin-login-oauth2/assets/linkedin.png`
 
-## 1.0.8
+# 1.0.8
 
-### Fixes
+## Fixes
 
 - Make `scope` to be a required property with default value of `r_emailaddress`
 - Make the pop up center of the screen
 - Update demo link in README.md
 - Update scope for demo
 
-### 1.0.7
+# 1.0.7
 
-### Features
+## Features
 
 - Be able to render custom element (Thank @YBeck for your contribution)
 - Support IE11, please see #support-ie in README.md for more detail
 - Check `state` to avoid CSRF attack
 
-### Fixes
+## Fixes
 
 - Remove unnecessary `console.log`
