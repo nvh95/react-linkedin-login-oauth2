@@ -1,4 +1,10 @@
-# 2.x
+# 2.0.1
+
+## Features
+
+- Support React 18
+
+# 2.0.0
 
 ## Features
 
