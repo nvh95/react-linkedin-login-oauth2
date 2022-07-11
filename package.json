@@ -21,8 +21,8 @@
     "vite": "vite ./preview"
   },
   "peerDependencies": {
-    "react": "16.x || 17.x",
-    "react-dom": "16.x || 17.x"
+    "react": "16.x || 17.x || 18.x",
+    "react-dom": "16.x || 17.x || 18.x"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
