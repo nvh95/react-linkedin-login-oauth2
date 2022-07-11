@@ -18,6 +18,8 @@
     "prettier": "prettier src --write",
     "lint": "eslint src --fix",
     "publish:local": "export BUILD_MODE=dev &&npm publish --registry http://localhost:4873",
+    "publish:alpha": "npm publish --tag alpha",
+    "publish:latest": "npm publish",
     "vite": "vite ./preview"
   },
   "peerDependencies": {
