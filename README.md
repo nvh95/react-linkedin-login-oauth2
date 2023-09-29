@@ -59,6 +59,7 @@ import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png';
 function LinkedInPage() {
   const { linkedInLogin } = useLinkedIn({
     clientId: '86vhj2q7ukf83q',
+    scope: 'r_emailaddress' // after configure everything if it don't work change this to 'email'
     redirectUri: `${window.location.origin}/linkedin`, // for Next.js, you can use `${typeof window === 'object' && window.location.origin}/linkedin`
     onSuccess: (code) => {
       console.log(code);
