@@ -19,7 +19,7 @@ export default function Home() {
       console.log(code);
       setCode(code);
     },
-    scope: 'r_emailaddress',
+    scope: 'email',
     onError: (error) => {
       console.log(error);
       setErrorMessage(error.errorMessage);

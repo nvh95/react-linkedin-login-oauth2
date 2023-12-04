@@ -1,3 +1,10 @@
+# 2.0.2
+
+## Features
+
+- Update LinkedIn scopes
+- Added possible scopes to README
+
 # 2.0.1
 
 ## Features

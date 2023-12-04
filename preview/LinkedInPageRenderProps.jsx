@@ -18,7 +18,7 @@ function LinkedInPage() {
           console.log(code);
           setCode(code);
         }}
-        scope="r_emailaddress r_liteprofile"
+        scope="email profile"
         onError={(error) => {
           console.log(error);
           setErrorMessage(error.errorMessage);
