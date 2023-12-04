@@ -1,3 +1,9 @@
+# 2.0.2
+
+## Features
+
+- Update LinkedIn scopes
+
 # 2.0.1
 
 ## Features

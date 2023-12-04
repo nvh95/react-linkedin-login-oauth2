@@ -24,7 +24,7 @@ export function useLinkedIn({
   clientId,
   onSuccess,
   onError,
-  scope = 'r_emailaddress',
+  scope = 'email',
   state = '',
   closePopupMessage = 'User closed the popup',
 }: useLinkedInType) {

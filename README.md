@@ -162,7 +162,7 @@ export default function LinkedInPage() {
 | onSuccess   | function |     yes     |                                                                                                                                                                                                       |
 | onError     | function |     no      |                                                                                                                                                                                                       |
 | state       | string   |     no      |                                                                      randomly generated string (recommend to keep default value)                                                                      |
-| scope       | string   |     no      |                                                                                           'r_emailaddress'                                                                                            |
+| scope       | string   |     no      |                                                                                           'email'                                                                                            |
 |             |          |             | See your app scope [here](https://docs.microsoft.com/en-us/linkedin/shared/authentication/authentication?context=linkedin/context#permission-types). If there are more than one, delimited by a space |
 | children    | function |     no      |                                                                         Require if using `LinkedIn` component (render props)                                                                          |
 
