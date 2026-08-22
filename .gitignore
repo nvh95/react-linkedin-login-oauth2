@@ -9,4 +9,5 @@ npm-debug.log*
 .netlify
 .npmrc
 /build
+/preview/dist
 .pnpm-store
