@@ -8,36 +8,68 @@ type ParamsType = {
   error_description?: string;
 };
 
+type CallbackMessage = {
+  code?: string;
+  error?: string;
+  state: string | null;
+  errorMessage?: string;
+  from: 'Linked In';
+};
+
 export function LinkedInCallback() {
   const [errorMessage, setErrorMessage] = useState<string>('');
   useEffect(() => {
     const params = parse(window.location.search) as ParamsType;
-    if (params.state !== localStorage.getItem(LINKEDIN_OAUTH2_STATE)) {
-      setErrorMessage('State does not match');
-    } else if (params.error) {
-      const errorMessage =
-        params.error_description || 'Login failed. Please try again.';
-      window.opener &&
-        window.opener.postMessage(
-          {
-            error: params.error,
-            state: params.state,
-            errorMessage,
-            from: 'Linked In',
-          },
-          window.location.origin,
+    const savedState = localStorage.getItem(LINKEDIN_OAUTH2_STATE);
+
+    const notifyOpener = (message: CallbackMessage) => {
+      if (!window.opener) {
+        setErrorMessage(
+          'Unable to complete login because the original window is unavailable.',
         );
-      // Close tab if user cancelled login
-      if (params.error === 'user_cancelled_login') {
-        window.close();
+        return false;
       }
-    }
-    if (params.code) {
-      window.opener &&
-        window.opener.postMessage(
-          { code: params.code, state: params.state, from: 'Linked In' },
-          window.location.origin,
-        );
+
+      window.opener.postMessage(message, window.location.origin);
+      window.close();
+      return true;
+    };
+
+    if (!savedState || params.state !== savedState) {
+      const stateErrorMessage = 'State does not match';
+      setErrorMessage(stateErrorMessage);
+      notifyOpener({
+        error: 'state_mismatch',
+        state: savedState,
+        errorMessage: stateErrorMessage,
+        from: 'Linked In',
+      });
+    } else if (params.error) {
+      const linkedInErrorMessage =
+        params.error_description || 'Login failed. Please try again.';
+      setErrorMessage(linkedInErrorMessage);
+      notifyOpener({
+        error: params.error,
+        state: params.state,
+        errorMessage: linkedInErrorMessage,
+        from: 'Linked In',
+      });
+    } else if (params.code) {
+      notifyOpener({
+        code: params.code,
+        state: params.state,
+        from: 'Linked In',
+      });
+    } else {
+      const responseErrorMessage =
+        'LinkedIn did not return an authorization code.';
+      setErrorMessage(responseErrorMessage);
+      notifyOpener({
+        error: 'invalid_response',
+        state: savedState,
+        errorMessage: responseErrorMessage,
+        from: 'Linked In',
+      });
     }
   }, []);
 

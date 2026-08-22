@@ -1,0 +1,8 @@
+packages:
+  - examples/nextjs
+
+allowBuilds:
+  unrs-resolver: true
+
+minimumReleaseAgeExclude:
+  - eslint@10.9.0

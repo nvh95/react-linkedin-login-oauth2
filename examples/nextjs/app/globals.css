@@ -1,0 +1,40 @@
+:root {
+  color: #1f2328;
+  background: #f6f8fa;
+  font-family: Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  width: min(640px, calc(100% - 32px));
+  margin: 80px auto;
+  padding: 32px;
+  text-align: center;
+  background: white;
+  border: 1px solid #d0d7de;
+  border-radius: 12px;
+}
+
+.linkedinButton {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}
+
+.linkedinButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.notice,
+.error {
+  color: #b42318;
+}

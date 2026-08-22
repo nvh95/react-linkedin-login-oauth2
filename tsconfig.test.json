@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "sourceMap": false,
+    "strict": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/setupTests.ts"],
+  "exclude": ["node_modules", "build"]
+}

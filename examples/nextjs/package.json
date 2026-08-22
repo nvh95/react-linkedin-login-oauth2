@@ -1,21 +1,21 @@
 {
-  "name": "nextjs",
+  "name": "react-linkedin-login-oauth2-nextjs-example",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
-    "next": "12.0.1",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-linkedin-login-oauth2": "^2.0.0-alpha.1"
+    "next": "16.3.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-linkedin-login-oauth2": "workspace:*"
   },
   "devDependencies": {
-    "eslint": "7.32.0",
-    "eslint-config-next": "12.0.1"
+    "eslint": "^9.39.1",
+    "eslint-config-next": "16.3.2"
   }
 }

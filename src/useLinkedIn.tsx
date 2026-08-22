@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useLinkedInType } from './types';
-import { LINKEDIN_OAUTH2_STATE } from './utils';
+import {
+  buildLinkedInAuthorizationUrl,
+  generateRandomState,
+  LINKEDIN_OAUTH2_STATE,
+} from './utils';
+
+const LEGACY_SCOPES = ['r_emailaddress', 'r_liteprofile'];
+let hasWarnedAboutLegacyScope = false;
 
 const getPopupPositionProperties = ({ width = 600, height = 600 }) => {
   const left = screen.width / 2 - width / 2;
@@ -8,15 +15,18 @@ const getPopupPositionProperties = ({ width = 600, height = 600 }) => {
   return `left=${left},top=${top},width=${width},height=${height}`;
 };
 
-const generateRandomString = (length = 20) => {
-  let result = '';
-  const characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+const warnAboutLegacyScope = (scope: string) => {
+  const scopes = scope.split(/\s+/);
+  const usesLegacyScope = LEGACY_SCOPES.some((legacyScope) =>
+    scopes.includes(legacyScope),
+  );
+
+  if (usesLegacyScope && !hasWarnedAboutLegacyScope) {
+    console.warn(
+      '[react-linkedin-login-oauth2] LinkedIn deprecated the legacy Sign In with LinkedIn flow on August 1, 2023. Legacy scopes remain supported by this 2.x release for existing applications. Plan to migrate to Sign In with LinkedIn using OpenID Connect.',
+    );
+    hasWarnedAboutLegacyScope = true;
   }
-  return result;
 };
 
 export function useLinkedIn({
@@ -27,51 +37,75 @@ export function useLinkedIn({
   scope = 'r_emailaddress',
   state = '',
   closePopupMessage = 'User closed the popup',
+  popupWidth = 600,
+  popupHeight = 600,
 }: useLinkedInType) {
   const popupRef = useRef<Window>(null);
   const popUpIntervalRef = useRef<number>(null);
 
+  const clearPopupInterval = useCallback(() => {
+    if (popUpIntervalRef.current) {
+      window.clearInterval(popUpIntervalRef.current);
+      popUpIntervalRef.current = null;
+    }
+  }, []);
+
+  const finishPopup = useCallback(() => {
+    clearPopupInterval();
+    try {
+      localStorage.removeItem(LINKEDIN_OAUTH2_STATE);
+    } catch {
+      // Storage may be unavailable in privacy-restricted browser contexts.
+    }
+
+    if (popupRef.current) {
+      popupRef.current.close();
+      popupRef.current = null;
+    }
+  }, [clearPopupInterval]);
+
   const receiveMessage = useCallback(
     (event: MessageEvent) => {
+      if (
+        event.origin !== window.location.origin ||
+        event.source !== popupRef.current ||
+        !event.data ||
+        event.data.from !== 'Linked In'
+      ) {
+        return;
+      }
+
       const savedState = localStorage.getItem(LINKEDIN_OAUTH2_STATE);
-      if (event.origin === window.location.origin) {
-        if (event.data.errorMessage && event.data.from === 'Linked In') {
-          // Prevent CSRF attack by testing state
-          if (event.data.state !== savedState) {
-            popupRef.current && popupRef.current.close();
-            return;
-          }
-          onError && onError(event.data);
-          popupRef.current && popupRef.current.close();
-        } else if (event.data.code && event.data.from === 'Linked In') {
-          // Prevent CSRF attack by testing state
-          if (event.data.state !== savedState) {
-            console.error('State does not match');
-            popupRef.current && popupRef.current.close();
-            return;
-          }
-          onSuccess && onSuccess(event.data.code);
-          popupRef.current && popupRef.current.close();
+      if (!savedState || event.data.state !== savedState) {
+        finishPopup();
+        if (onError) {
+          onError({
+            error: 'state_mismatch',
+            errorMessage: 'State does not match',
+          });
         }
+        return;
+      }
+
+      if (event.data.error) {
+        finishPopup();
+        if (onError) {
+          onError(event.data);
+        }
+      } else if (event.data.code) {
+        const code = event.data.code;
+        finishPopup();
+        onSuccess(code);
       }
     },
-    [onError, onSuccess],
+    [finishPopup, onError, onSuccess],
   );
 
   useEffect(() => {
     return () => {
-      window.removeEventListener('message', receiveMessage, false);
-
-      if (popupRef.current) {
-        popupRef.current.close();
-        popupRef.current = null;
-      }
-      if (popUpIntervalRef.current) {
-        window.clearInterval(popUpIntervalRef.current);
-        popUpIntervalRef.current = null;
-      }
+      finishPopup();
     };
-  }, [receiveMessage]);
+  }, [finishPopup]);
 
   useEffect(() => {
     window.addEventListener('message', receiveMessage, false);
@@ -81,30 +115,75 @@ export function useLinkedIn({
   }, [receiveMessage]);
 
   const getUrl = () => {
-    const scopeParam = `&scope=${encodeURI(scope)}`;
-    const generatedState = state || generateRandomString();
+    warnAboutLegacyScope(scope);
+    const generatedState = state || generateRandomState();
     localStorage.setItem(LINKEDIN_OAUTH2_STATE, generatedState);
-    const linkedInAuthLink = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}${scopeParam}&state=${generatedState}`;
-    return linkedInAuthLink;
+    return buildLinkedInAuthorizationUrl({
+      clientId,
+      redirectUri,
+      scope,
+      state: generatedState,
+    });
   };
 
   const linkedInLogin = () => {
-    popupRef.current?.close();
-    popupRef.current = window.open(
-      getUrl(),
-      '_blank',
-      getPopupPositionProperties({ width: 600, height: 600 }),
-    );
+    finishPopup();
 
-    if (popUpIntervalRef.current) {
-      window.clearInterval(popUpIntervalRef.current);
-      popUpIntervalRef.current = null;
+    let authorizationUrl: string;
+    try {
+      authorizationUrl = getUrl();
+    } catch (error) {
+      finishPopup();
+      if (onError) {
+        onError({
+          error: 'authorization_request_failed',
+          errorMessage:
+            error instanceof Error
+              ? error.message
+              : 'Unable to create the LinkedIn authorization request',
+        });
+      }
+      return;
     }
+
+    try {
+      popupRef.current = window.open(
+        authorizationUrl,
+        '_blank',
+        getPopupPositionProperties({
+          width: popupWidth,
+          height: popupHeight,
+        }),
+      );
+    } catch (error) {
+      finishPopup();
+      if (onError) {
+        onError({
+          error: 'popup_open_failed',
+          errorMessage:
+            error instanceof Error
+              ? error.message
+              : 'Unable to open the LinkedIn login popup',
+        });
+      }
+      return;
+    }
+
+    if (!popupRef.current) {
+      finishPopup();
+      if (onError) {
+        onError({
+          error: 'popup_blocked',
+          errorMessage: 'The LinkedIn login popup was blocked',
+        });
+      }
+      return;
+    }
+
     popUpIntervalRef.current = window.setInterval(() => {
       try {
         if (popupRef.current && popupRef.current.closed) {
-          window.clearInterval(popUpIntervalRef.current);
-          popUpIntervalRef.current = null;
+          finishPopup();
           if (onError) {
             onError({
               error: 'user_closed_popup',
@@ -113,9 +192,16 @@ export function useLinkedIn({
           }
         }
       } catch (error) {
-        console.error(error);
-        window.clearInterval(popUpIntervalRef.current);
-        popUpIntervalRef.current = null;
+        finishPopup();
+        if (onError) {
+          onError({
+            error: 'popup_status_check_failed',
+            errorMessage:
+              error instanceof Error
+                ? error.message
+                : 'Unable to check the LinkedIn login popup status',
+          });
+        }
       }
     }, 1000);
   };

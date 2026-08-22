@@ -1,3 +1,41 @@
+# 2.1.0
+
+## Features
+
+- Add configurable `popupWidth` and `popupHeight` options with 600px defaults
+- Support React 19 and correct the React 16 peer minimum to 16.14 for the automatic JSX runtime
+
+## Fixes
+
+- Prevent a completed login from also reporting `user_closed_popup`
+- Report blocked and failed popup attempts through `onError`
+- Generate OAuth state with the Web Crypto API and remove it after completion
+- Build and parse OAuth URLs with the browser URL APIs
+- Validate callback messages against both the application origin and popup window
+
+## Build
+
+- Switch the package build from Rollup to Rolldown
+- Use pnpm for dependency management and project scripts
+- Replace Jest with Vitest and remove the Babel-based test pipeline
+- Upgrade the development toolchain to Vite 8, TypeScript 6, ESLint 10, and React 19
+- Remove unused Babel, Sass, Rimraf, and preview router dependencies
+- Add `build:preview` for generating the deployable Vite preview in `preview/dist`
+- Declare the TypeScript entry point and mark the package as side-effect free
+- Modernize the Next.js example to Next.js 16, React 19, the App Router, and pnpm
+- Add GitHub Actions checks for tests, types, linting, package builds, packing, and the preview
+- Use Node.js 24 for development and continuous integration
+
+## Documentation
+
+- Explain that the library returns an authorization code that applications must exchange on their backend
+- Warn against exposing the LinkedIn Client Secret in browser code
+- Update the React Router and Next.js callback examples
+
+## Deprecations
+
+- Warn when the deprecated `r_emailaddress` or `r_liteprofile` Sign In with LinkedIn scopes are used. They remain supported in the 2.x line for existing applications.
+
 # 2.0.1
 
 ## Features
