@@ -31,7 +31,6 @@ This library completes the browser portion of LinkedIn's OpenID Connect authoriz
   - [Exchange the authorization code](#exchange-the-authorization-code)
   - [Use the OpenID Connect identity](#use-the-openid-connect-identity)
   - [Security](#security)
-- [Support IE](#support-ie)
   - [Demo](#demo)
   - [Props](#props)
   - [Migration guide](#migration-guide)
@@ -247,13 +246,9 @@ See LinkedIn's [OpenID Connect documentation](https://learn.microsoft.com/en-us/
 
 The LinkedIn Client ID is public and may be passed to this library. The Client Secret must remain on your backend, ideally in a server-side environment variable or secret manager. Only your backend should exchange authorization codes for access tokens. Keep the returned access token secure and, where possible, use it from the backend rather than exposing it to the browser.
 
-# Support IE
-
-- Support for IE is dropped from version `2`
-
 ## Demo
 
-- Source code: https://github.com/nvh95/react-linkedin-login-oauth2-demo/blob/master/src/App.js
+- Source code: https://github.com/nvh95/react-linkedin-login-oauth2/blob/master/preview/LinkedInPageHook.jsx
 - In action: [https://stupefied-goldberg-b44ee5.netlify.app/](https://stupefied-goldberg-b44ee5.netlify.app/)
 
 ## Props
