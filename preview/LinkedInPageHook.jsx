@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { useLinkedIn } from '../src/useLinkedIn';
 import linkedin from '../assets/linkedin.png';
+import { useLinkedIn } from '../src/useLinkedIn';
 
 function LinkedInPage() {
   const { linkedInLogin } = useLinkedIn({
-    clientId: '86vhj2q7ukf83q',
+    clientId: '86uosml0bbk93k',
     redirectUri: `${window.location.origin}/linkedin`,
     onSuccess: (code) => {
       console.log(code);
       setCode(code);
     },
-    scope: 'r_emailaddress',
+    scope: 'openid profile email',
     onError: (error) => {
       console.log(error);
       setErrorMessage(error.errorMessage);

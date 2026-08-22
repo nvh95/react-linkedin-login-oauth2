@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { LinkedIn } from '../src/LinkedIn';
 import linkedin from '../assets/linkedin.png';
+import { LinkedIn } from '../src/LinkedIn';
 
 function LinkedInPage() {
   const [code, setCode] = useState('');
@@ -12,13 +12,13 @@ function LinkedInPage() {
       render props
       <br />
       <LinkedIn
-        clientId="86vhj2q7ukf83q"
+        clientId="86uosml0bbk93k"
         redirectUri={`${window.location.origin}/linkedin`}
         onSuccess={(code) => {
           console.log(code);
           setCode(code);
         }}
-        scope="r_emailaddress r_liteprofile"
+        scope="openid profile email"
         onError={(error) => {
           console.log(error);
           setErrorMessage(error.errorMessage);
