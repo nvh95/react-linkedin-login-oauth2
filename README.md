@@ -27,15 +27,13 @@ This library completes the browser portion of LinkedIn's OpenID Connect authoriz
   - [Installation](#installation)
   - [Overview](#overview)
   - [Usage](#usage)
+  - [Sign-in button image](#sign-in-button-image)
   - [Exchange the authorization code](#exchange-the-authorization-code)
   - [Use the OpenID Connect identity](#use-the-openid-connect-identity)
   - [Security](#security)
 - [Support IE](#support-ie)
   - [Demo](#demo)
   - [Props](#props)
-  - [Issues](#issues)
-    - [Failed to minify the code from this file: ./node\_modules/react-linkedin-login-oauth2/node\_modules/query-string/index.js:8](#failed-to-minify-the-code-from-this-file-node_modulesreact-linkedin-login-oauth2node_modulesquery-stringindexjs8)
-  - [Known issue](#known-issue)
   - [Migration guide](#migration-guide)
   - [Contributors ✨](#contributors-)
 
@@ -65,7 +63,7 @@ First, we create a button and provide required props:
 
 ```js
 import { useLinkedIn } from 'react-linkedin-login-oauth2';
-// You can use provided image shipped by this package or using your own
+// You can use a provided image shipped by this package or your own button.
 import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png';
 
 function LinkedInPage() {
@@ -103,7 +101,7 @@ If you do not want to use hooks, the library also provides a render-props compon
 
 ```js
 import { LinkedIn } from 'react-linkedin-login-oauth2';
-// You can use provided image shipped by this package or using your own
+// You can use a provided image shipped by this package or your own button.
 import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png';
 
 function LinkedInPage() {
@@ -164,6 +162,16 @@ export default function LinkedInCallbackPage() {
   return <LinkedInCallback />;
 }
 ```
+
+## Sign-in button image
+
+The existing sign-in image remains bundled for backward compatibility:
+
+```js
+import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png';
+```
+
+For current official button images and branding guidance, visit LinkedIn's [Sign in with LinkedIn using OpenID Connect documentation](https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin-v2) and download the assets from its **Image Resources** section. The additional official image variants are not bundled with this package.
 
 ## Exchange the authorization code
 
@@ -270,18 +278,6 @@ Reference: [LinkedIn Authorization Code Flow](https://learn.microsoft.com/en-us/
 
 - `LinkedInCallback` component:  
   No parameters needed
-
-## Issues
-
-Please create an issue at [https://github.com/nvh95/react-linkedin-login-oauth2/issues](https://github.com/nvh95/react-linkedin-login-oauth2/issues). I will spend time to help you.
-
-#### Failed to minify the code from this file: ./node_modules/react-linkedin-login-oauth2/node_modules/query-string/index.js:8
-
-Please upgrade `react-linkedin-login-oauth2` to latest version following
-
-Follow the version-specific commands in [Installation](#installation).
-
-## Known issue
 
 ## Migration guide
 
