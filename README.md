@@ -1,4 +1,4 @@
-# React Linked In Login Using OAuth 2.0
+# React LinkedIn Login Using OAuth 2.0 and OpenID Connect
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
@@ -15,20 +15,20 @@
 
 Demo: https://stupefied-goldberg-b44ee5.netlify.app/
 
-> [!WARNING]
-> LinkedIn deprecated the legacy **Sign In with LinkedIn** product on August 1, 2023. Version 2 of this library is maintained for existing applications that still use the legacy `r_emailaddress` and `r_liteprofile` scopes. If you are creating a new application, use version 3 of this library with [Sign In with LinkedIn using OpenID Connect](https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin-v2).
+Version 3 uses LinkedIn's current [Sign in with LinkedIn using OpenID Connect](https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin-v2) product. OpenID Connect (OIDC) is an identity layer built on top of OAuth 2.0: OAuth 2.0 provides the authorization-code flow, while OIDC adds the ID token used to authenticate the member. Migrating from version 2? Follow the [version 2 to version 3 migration guide](./MIGRATION-from-2-to-3.md).
 
-This library completes the browser portion of LinkedIn's OAuth 2.0 authorization flow and returns an **authorization code**. It does not exchange that code for an access token. Your application must send the code to its backend, where the backend exchanges it with LinkedIn using the application's client secret. See [Exchange the authorization code](#exchange-the-authorization-code).
+This library completes the browser portion of LinkedIn's OpenID Connect authorization-code flow and returns an **authorization code**. It does not exchange that code for tokens. Your application must send the code to its backend, where the backend exchanges it with LinkedIn using the application's client secret. See [Exchange the authorization code](#exchange-the-authorization-code).
 
 ## Table of contents
 
-- [React Linked In Login Using OAuth 2.0](#react-linked-in-login-using-oauth-20)
+- [React LinkedIn Login Using OAuth 2.0 and OpenID Connect](#react-linkedin-login-using-oauth-20-and-openid-connect)
   - [Table of contents](#table-of-contents)
   - [Changelog](#changelog)
   - [Installation](#installation)
   - [Overview](#overview)
   - [Usage](#usage)
   - [Exchange the authorization code](#exchange-the-authorization-code)
+  - [Use the OpenID Connect identity](#use-the-openid-connect-identity)
   - [Security](#security)
 - [Support IE](#support-ie)
   - [Demo](#demo)
@@ -45,23 +45,19 @@ See [CHANGELOG.md](https://github.com/nvh95/react-linkedin-login-oauth2/blob/mas
 
 ## Installation
 
-For a new application, install version 3 or above and use LinkedIn's OpenID Connect flow:
+Install version 3:
 
 ```shell
-pnpm add react-linkedin-login-oauth2@^3
+pnpm add react-linkedin-login-oauth2
 ```
 
-Only existing applications that depend on the deprecated legacy scopes should install version 2:
-
-```shell
-pnpm add react-linkedin-login-oauth2@^2
-```
+In the LinkedIn Developer Portal, add the **Sign in with LinkedIn using OpenID Connect** product to your application and register the exact callback URL that you pass as `redirectUri`.
 
 ## Overview
 
 Call `linkedInLogin` using `useLinkedIn` (recommended) or the `LinkedIn` render-props component. A popup asks the member to authorize your application. LinkedIn then redirects the popup to your `redirectUri`, where `LinkedInCallback` sends the authorization code back to the original window. Your `onSuccess` callback receives that code.
 
-The authorization code is not an access token and cannot be used directly to call LinkedIn APIs. Send it to your backend immediately and exchange it as described below.
+The authorization code is not an access token or ID token and cannot be used directly to authenticate a user or call LinkedIn APIs. Send it to your backend immediately and exchange it as described below.
 
 ## Usage
 
@@ -89,6 +85,7 @@ function LinkedInPage() {
     },
     popupWidth: 700,
     popupHeight: 700,
+    // Defaults to 'openid profile email'. The library warns if a custom scope omits 'openid'.
   });
 
   return (
@@ -175,8 +172,9 @@ The `code` passed to `onSuccess` is short-lived. Your application should complet
 1. Send the code from the browser to an endpoint on your own backend over HTTPS.
 2. From the backend, send a form-encoded `POST` request to `https://www.linkedin.com/oauth/v2/accessToken`.
 3. Include `grant_type`, `code`, `client_id`, `client_secret`, and the same `redirect_uri` used for authorization.
-4. Check LinkedIn's response and securely store or use the returned access token on the backend.
-5. Create your application's own login session, preferably using a secure, HTTP-only cookie.
+4. Validate the returned ID token before using its claims as an authenticated identity.
+5. Securely store or use the returned access token on the backend.
+6. Create your application's own login session, preferably using a secure, HTTP-only cookie.
 
 The token exchange must run on a server. For example:
 
@@ -212,6 +210,28 @@ Your `/api/auth/linkedin/exchange` handler should call this function with the au
 
 See LinkedIn's official [Authorization Code Flow](https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow) documentation for the request fields, response format, token lifetime, and refresh behavior.
 
+## Use the OpenID Connect identity
+
+When `openid` is requested, LinkedIn's successful token response includes an `id_token` JWT. Validate it on your backend using LinkedIn's [OpenID Connect discovery metadata](https://www.linkedin.com/oauth/.well-known/openid-configuration) and JSON Web Key Set. Validate at least the token signature, `iss`, `aud`, and `exp` claims before trusting the identity. Decoding a JWT without verifying it is not authentication.
+
+The verified ID token can contain `sub`, `name`, `given_name`, `family_name`, `picture`, `email`, and `email_verified`. The email claims are optional and may be absent.
+
+You can also retrieve the member details from LinkedIn's UserInfo endpoint on your backend:
+
+```js
+const response = await fetch('https://api.linkedin.com/v2/userinfo', {
+  headers: { Authorization: `Bearer ${accessToken}` },
+});
+
+if (!response.ok) {
+  throw new Error(`LinkedIn UserInfo request failed: ${response.status}`);
+}
+
+const profile = await response.json();
+```
+
+See LinkedIn's [OpenID Connect documentation](https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin-v2) for the current claims and endpoints.
+
 ## Security
 
 > [!CAUTION]
@@ -232,19 +252,19 @@ The LinkedIn Client ID is public and may be passed to this library. The Client S
 
 - `LinkedIn` component:
 
-| Parameter         | value    | is required |                                                                                             default                                                                                              |
-| ----------------- | -------- | :---------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| clientId          | string   |     yes     |                                                                                                                                                                                                  |
-| redirectUri       | string   |     yes     |                                                                                                                                                                                                  |
-| onSuccess         | function |     yes     |                                                                                                                                                                                                  |
-| onError           | function |     no      |                                                                                                                                                                                                  |
-| state             | string   |     no      |                                                                   randomly generated string (recommend to keep default value)                                                                    |
-| scope             | string   |     no      |                                                                                         'r_emailaddress'                                                                                         |
-|                   |          |             | See LinkedIn's [OAuth permission documentation](https://learn.microsoft.com/en-us/linkedin/shared/authentication/authentication#member-auth-permissions). Separate multiple scopes with a space. |
-| popupWidth        | number   |     no      |                                                                                               600                                                                                                |
-| popupHeight       | number   |     no      |                                                                                               600                                                                                                |
-| closePopupMessage | string   |     no      |                                                                                     'User closed the popup'                                                                                      |
-| children          | function |     no      |                                                                   Required when using the `LinkedIn` component (render props)                                                                    |
+| Parameter         | value    | is required |                                                                                                                                                       default                                                                                                                                                       |
+| ----------------- | -------- | :---------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| clientId          | string   |     yes     |                                                                                                                                                                                                                                                                                                                     |
+| redirectUri       | string   |     yes     |                                                                                                                                                                                                                                                                                                                     |
+| onSuccess         | function |     yes     |                                                                                                                                                                                                                                                                                                                     |
+| onError           | function |     no      |                                                                                                                                                                                                                                                                                                                     |
+| state             | string   |     no      |                                                                                                                             randomly generated string (recommend to keep default value)                                                                                                                             |
+| scope             | string   |     no      |                                                                                                                                               'openid profile email'                                                                                                                                                |
+|                   |          |             | Include `openid` for OIDC. The library warns without blocking if it is omitted. Scope separators using spaces, `%20`, commas, or `+` are normalized to spaces. See LinkedIn's [OpenID Connect documentation](https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin-v2). |
+| popupWidth        | number   |     no      |                                                                                                                                                         600                                                                                                                                                         |
+| popupHeight       | number   |     no      |                                                                                                                                                         600                                                                                                                                                         |
+| closePopupMessage | string   |     no      |                                                                                                                                               'User closed the popup'                                                                                                                                               |
+| children          | function |     no      |                                                                                                                             Required when using the `LinkedIn` component (render props)                                                                                                                             |
 
 Reference: [LinkedIn Authorization Code Flow](https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow#step-2-request-an-authorization-code)
 
@@ -265,7 +285,9 @@ Follow the version-specific commands in [Installation](#installation).
 
 ## Migration guide
 
-Upgrading an existing integration from version 1? See the [version 1 to version 2 migration guide](./MIGRATION-from-1-to-2.md).
+- Upgrading from version 2? See the [version 2 to version 3 migration guide](./MIGRATION-from-2-to-3.md).
+- Upgrading from version 1? Start with the [version 1 to version 2 migration guide](./MIGRATION-from-1-to-2.md), then continue with the version 3 guide.
+- Existing applications that still depend on LinkedIn's deprecated `r_liteprofile` or `r_emailaddress` scopes must remain on `react-linkedin-login-oauth2@^2` until they migrate their LinkedIn application to OpenID Connect.
 
 ## Contributors ✨
 

@@ -1,3 +1,17 @@
+# 3.0.0
+
+## Breaking changes
+
+- Use LinkedIn's current OpenID Connect scopes, `openid profile email`, by default
+- Warn when a custom scope omits `openid` without blocking the authorization flow; applications that still depend on the deprecated `r_emailaddress` or `r_liteprofile` flow should remain on version 2
+- Normalize space-delimited, `%20`-encoded, comma-delimited, and `+`-delimited scope values before creating the authorization URL
+- Remove the runtime legacy-flow deprecation warning introduced in version 2.1
+
+## Documentation
+
+- Add a version 2 to version 3 migration guide
+- Document the OpenID Connect ID token and UserInfo response alongside the existing server-side authorization-code exchange guidance
+
 # 2.1.0
 
 ## Features
