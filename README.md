@@ -1,10 +1,7 @@
 # React LinkedIn Login Using OAuth 2.0 and OpenID Connect
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-green.svg)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![npm package][npm-badge]][npm]
@@ -288,21 +285,24 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
-  <tr>
-    <td align="center"><a href="https://hung.dev"><img src="https://avatars.githubusercontent.com/u/8603085?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hung Viet Nguyen</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/commits?author=nvh95" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/Songuku95"><img src="https://avatars.githubusercontent.com/u/9360548?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nguyễn Duy Khánh</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/commits?author=Songuku95" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/YBeck"><img src="https://avatars.githubusercontent.com/u/28867948?v=4?s=100" width="100px;" alt=""/><br /><sub><b>YBeck</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/commits?author=YBeck" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/mehdirazajaffri"><img src="https://avatars.githubusercontent.com/u/10342757?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mehdi Raza</b></sub></a><br /><a href="#ideas-mehdirazajaffri" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://www.linkedin.com/in/phillipdenness/"><img src="https://avatars.githubusercontent.com/u/7850970?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Phillip Denness</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/issues?q=author%3AphillipDenness" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/deepdil-sp"><img src="https://avatars.githubusercontent.com/u/39123166?v=4?s=100" width="100px;" alt=""/><br /><sub><b>dsp.iam</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/issues?q=author%3Adeepdil-sp" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/vitalii-bulyzhyn"><img src="https://avatars.githubusercontent.com/u/46309116?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vitalii Bulyzhyn</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/commits?author=vitalii-bulyzhyn" title="Code">💻</a></td>
-  </tr>
-  <tr>
-    <td align="center"><a href="https://github.com/pradeeptinku"><img src="https://avatars.githubusercontent.com/u/8938131?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Pradeep Reddy Guduru</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/issues?q=author%3Apradeeptinku" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="http://linkedin.com/in/uric-bonatti-cardoso-820275132/"><img src="https://avatars.githubusercontent.com/u/43557914?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Uric Bonatti Cardoso</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/issues?q=author%3Auricbonatti" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/faisalur-rehman"><img src="https://avatars.githubusercontent.com/u/66237466?v=4?s=100" width="100px;" alt=""/><br /><sub><b>faisalur-rehman</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/commits?author=faisalur-rehman" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/asanovr"><img src="https://avatars.githubusercontent.com/u/6459461?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ruslan</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/commits?author=asanovr" title="Code">💻</a></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://hung.dev"><img src="https://avatars.githubusercontent.com/u/8603085?v=4?s=100" width="100px;" alt="Hung Viet Nguyen"/><br /><sub><b>Hung Viet Nguyen</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/commits?author=nvh95" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Songuku95"><img src="https://avatars.githubusercontent.com/u/9360548?v=4?s=100" width="100px;" alt="Nguyễn Duy Khánh"/><br /><sub><b>Nguyễn Duy Khánh</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/commits?author=Songuku95" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/YBeck"><img src="https://avatars.githubusercontent.com/u/28867948?v=4?s=100" width="100px;" alt="YBeck"/><br /><sub><b>YBeck</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/commits?author=YBeck" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/mehdirazajaffri"><img src="https://avatars.githubusercontent.com/u/10342757?v=4?s=100" width="100px;" alt="Mehdi Raza"/><br /><sub><b>Mehdi Raza</b></sub></a><br /><a href="#ideas-mehdirazajaffri" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://www.linkedin.com/in/phillipdenness/"><img src="https://avatars.githubusercontent.com/u/7850970?v=4?s=100" width="100px;" alt="Phillip Denness"/><br /><sub><b>Phillip Denness</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/issues?q=author%3AphillipDenness" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/deepdil-sp"><img src="https://avatars.githubusercontent.com/u/39123166?v=4?s=100" width="100px;" alt="dsp.iam"/><br /><sub><b>dsp.iam</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/issues?q=author%3Adeepdil-sp" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/vitalii-bulyzhyn"><img src="https://avatars.githubusercontent.com/u/46309116?v=4?s=100" width="100px;" alt="Vitalii Bulyzhyn"/><br /><sub><b>Vitalii Bulyzhyn</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/commits?author=vitalii-bulyzhyn" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/pradeeptinku"><img src="https://avatars.githubusercontent.com/u/8938131?v=4?s=100" width="100px;" alt="Pradeep Reddy Guduru"/><br /><sub><b>Pradeep Reddy Guduru</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/issues?q=author%3Apradeeptinku" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://linkedin.com/in/uric-bonatti-cardoso-820275132/"><img src="https://avatars.githubusercontent.com/u/43557914?v=4?s=100" width="100px;" alt="Uric Bonatti Cardoso"/><br /><sub><b>Uric Bonatti Cardoso</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/issues?q=author%3Auricbonatti" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/faisalur-rehman"><img src="https://avatars.githubusercontent.com/u/66237466?v=4?s=100" width="100px;" alt="faisalur-rehman"/><br /><sub><b>faisalur-rehman</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/commits?author=faisalur-rehman" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/asanovr"><img src="https://avatars.githubusercontent.com/u/6459461?v=4?s=100" width="100px;" alt="Ruslan"/><br /><sub><b>Ruslan</b></sub></a><br /><a href="https://github.com/nvh95/react-linkedin-login-oauth2/commits?author=asanovr" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://duclearc.com"><img src="https://avatars.githubusercontent.com/u/59476105?v=4?s=100" width="100px;" alt="Dan"/><br /><sub><b>Dan</b></sub></a><br /><a href="#ideas-Duclearc" title="Ideas, Planning, & Feedback">🤔</a></td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-restore -->

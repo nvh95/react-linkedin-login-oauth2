@@ -103,6 +103,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Duclearc",
+      "name": "Dan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59476105?v=4",
+      "profile": "https://duclearc.com",
+      "contributions": [
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -110,5 +119,7 @@
   "projectOwner": "nvh95",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitType": "docs",
+  "commitConvention": "angular"
 }
