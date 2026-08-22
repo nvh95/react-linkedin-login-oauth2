@@ -20,6 +20,8 @@ Demo: https://stupefied-goldberg-b44ee5.netlify.app/
 This package is used to get authorization code for Linked In Log in feature using OAuth2 in a easy way. After have the authorization code, you can exchange to an access token by sending it to the server to continue to get information needed. For more details, please see at [Authorization Code Flow (3-legged OAuth)](https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow)  
 See [Usage](#usage) and [Demo](#demo) for instruction.
 
+> **Legacy Sign In with LinkedIn:** Version 2.0.2 keeps the `r_emailaddress` default and supports `r_liteprofile` so existing applications can continue using the legacy LinkedIn product. LinkedIn deprecated that product on August 1, 2023, so the package emits a one-time console warning when either legacy scope is used. A future major release will switch the defaults and examples to Sign In with LinkedIn using OpenID Connect.
+
 ## Table of contents
 
 - [Changelog](#changelog)

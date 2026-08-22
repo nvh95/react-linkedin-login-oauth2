@@ -1,3 +1,25 @@
+# 2.1.0
+
+## Fixes
+
+- Prevent a completed login from also reporting `user_closed_popup`
+- Report blocked and failed popup attempts through `onError`
+- Generate OAuth state with the Web Crypto API and remove it after completion
+- Build and parse OAuth URLs with the browser URL APIs
+- Validate callback messages against both the application origin and popup window
+
+## Build
+
+- Switch the package build from Rollup to Rolldown
+- Use pnpm for dependency management and project scripts
+- Replace Jest with Vitest and remove the Babel-based test pipeline
+- Upgrade the development toolchain to Vite 8, TypeScript 6, ESLint 10, and React 19
+- Remove unused Babel, Sass, Rimraf, and preview router dependencies
+
+## Deprecations
+
+- Warn when the deprecated `r_emailaddress` or `r_liteprofile` Sign In with LinkedIn scopes are used. They remain supported in the 2.x line for existing applications.
+
 # 2.0.1
 
 ## Features

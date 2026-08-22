@@ -9,3 +9,4 @@ npm-debug.log*
 .netlify
 .npmrc
 /build
+.pnpm-store
