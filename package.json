@@ -1,15 +1,16 @@
 {
   "name": "react-linkedin-login-oauth2",
-  "version": "2.1.0-alpha.0",
+  "version": "3.0.0",
   "packageManager": "pnpm@11.5.0",
-  "description": "React component for Linked In Log In feature using OAuth 2.0",
+  "description": "React components for Sign in with LinkedIn using OpenID Connect",
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "types": "./build/index.d.ts",
   "sideEffects": false,
   "files": [
     "build",
-    "assets"
+    "assets",
+    "MIGRATION-*.md"
   ],
   "scripts": {
     "clean": "node -e \"require('node:fs').rmSync('build', { recursive: true, force: true })\"",
@@ -68,6 +69,8 @@
     "signin",
     "oauth",
     "oauth2",
+    "oidc",
+    "openid-connect",
     "redirect"
   ]
 }

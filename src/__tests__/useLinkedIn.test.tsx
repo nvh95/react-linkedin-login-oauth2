@@ -134,8 +134,9 @@ describe('useLinkedIn', () => {
       throw new Error('LinkedIn authorization URL was not opened');
     }
     const authorizationUrl = new URL(openedUrl);
-    expect(authorizationUrl.searchParams.get('scope')).toBe('r_emailaddress');
-    expect(console.warn).toHaveBeenCalledTimes(1);
+    expect(authorizationUrl.searchParams.get('scope')).toBe(
+      'openid profile email',
+    );
 
     const state = localStorage.getItem(LINKEDIN_OAUTH2_STATE);
     act(() => {
@@ -156,6 +157,41 @@ describe('useLinkedIn', () => {
     expect(onError).not.toHaveBeenCalled();
     expect(localStorage.getItem(LINKEDIN_OAUTH2_STATE)).toBeNull();
   });
+
+  test('warns without blocking when a custom scope omits openid', () => {
+    const onSuccess = vi.fn();
+    const onError = vi.fn();
+
+    renderAndOpenPopup(onSuccess, onError, {
+      scope: 'r_emailaddress r_liteprofile',
+    });
+
+    expect(window.open).toHaveBeenCalledTimes(1);
+    expect(onSuccess).not.toHaveBeenCalled();
+    expect(onError).not.toHaveBeenCalled();
+    expect(console.warn).toHaveBeenCalledWith(
+      'The scope must include "openid" for Sign in with LinkedIn using OpenID Connect',
+    );
+    expect(localStorage.getItem(LINKEDIN_OAUTH2_STATE)).not.toBeNull();
+  });
+
+  test.each(['openid%20email', 'openid,email', 'openid+email'])(
+    'normalizes the encoded scope %s',
+    (scope) => {
+      const onSuccess = vi.fn();
+      const onError = vi.fn();
+
+      renderAndOpenPopup(onSuccess, onError, { scope });
+
+      const openedUrl = vi.mocked(window.open).mock.calls[0]?.[0];
+      if (!openedUrl) {
+        throw new Error('LinkedIn authorization URL was not opened');
+      }
+
+      expect(new URL(openedUrl).searchParams.get('scope')).toBe('openid email');
+      expect(console.warn).not.toHaveBeenCalled();
+    },
+  );
 
   test('reports a blocked popup', () => {
     const onSuccess = vi.fn();

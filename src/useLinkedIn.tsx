@@ -6,8 +6,7 @@ import {
   LINKEDIN_OAUTH2_STATE,
 } from './utils';
 
-const LEGACY_SCOPES = ['r_emailaddress', 'r_liteprofile'];
-let hasWarnedAboutLegacyScope = false;
+const DEFAULT_SCOPE = 'openid profile email';
 
 const getPopupPositionProperties = ({ width = 600, height = 600 }) => {
   const left = screen.width / 2 - width / 2;
@@ -15,26 +14,20 @@ const getPopupPositionProperties = ({ width = 600, height = 600 }) => {
   return `left=${left},top=${top},width=${width},height=${height}`;
 };
 
-const warnAboutLegacyScope = (scope: string) => {
-  const scopes = scope.split(/\s+/);
-  const usesLegacyScope = LEGACY_SCOPES.some((legacyScope) =>
-    scopes.includes(legacyScope),
-  );
-
-  if (usesLegacyScope && !hasWarnedAboutLegacyScope) {
-    console.warn(
-      '[react-linkedin-login-oauth2] LinkedIn deprecated the legacy Sign In with LinkedIn flow on August 1, 2023. Legacy scopes remain supported by this 2.x release for existing applications. Plan to migrate to Sign In with LinkedIn using OpenID Connect.',
-    );
-    hasWarnedAboutLegacyScope = true;
-  }
-};
+const normalizeScope = (scope: string) =>
+  scope
+    .replace(/%20|[,+]/gi, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .join(' ');
 
 export function useLinkedIn({
   redirectUri,
   clientId,
   onSuccess,
   onError,
-  scope = 'r_emailaddress',
+  scope = DEFAULT_SCOPE,
   state = '',
   closePopupMessage = 'User closed the popup',
   popupWidth = 600,
@@ -115,13 +108,20 @@ export function useLinkedIn({
   }, [receiveMessage]);
 
   const getUrl = () => {
-    warnAboutLegacyScope(scope);
+    const normalizedScope = normalizeScope(scope);
+
+    if (!normalizedScope.split(' ').includes('openid')) {
+      console.warn(
+        'The scope must include "openid" for Sign in with LinkedIn using OpenID Connect',
+      );
+    }
+
     const generatedState = state || generateRandomState();
     localStorage.setItem(LINKEDIN_OAUTH2_STATE, generatedState);
     return buildLinkedInAuthorizationUrl({
       clientId,
       redirectUri,
-      scope,
+      scope: normalizedScope,
       state: generatedState,
     });
   };
