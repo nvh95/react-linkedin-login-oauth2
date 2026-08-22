@@ -1,4 +1,7 @@
+'use client';
+
 import { LinkedInCallback } from 'react-linkedin-login-oauth2';
-export default function LinkedInPage() {
+
+export default function LinkedInCallbackPage() {
   return <LinkedInCallback />;
 }

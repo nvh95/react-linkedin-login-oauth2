@@ -5,6 +5,8 @@
   "description": "React component for Linked In Log In feature using OAuth 2.0",
   "main": "build/index.js",
   "module": "build/index.esm.js",
+  "types": "./build/index.d.ts",
+  "sideEffects": false,
   "files": [
     "build",
     "assets"
@@ -27,12 +29,12 @@
     "publish:latest": "pnpm publish"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+    "react": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/node": "^20.19.43",
+    "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.1.0",

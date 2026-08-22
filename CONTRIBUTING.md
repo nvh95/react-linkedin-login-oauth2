@@ -1,6 +1,6 @@
 ## Prerequisites
 
-[Node.js](http://nodejs.org/) >= 20.19 and pnpm 11 must be installed for development.
+[Node.js](https://nodejs.org/) 24 and pnpm 11 must be installed for development.
 
 ## Installation
 

@@ -1,5 +1,10 @@
 # 2.1.0
 
+## Features
+
+- Add configurable `popupWidth` and `popupHeight` options with 600px defaults
+- Support React 19 and correct the React 16 peer minimum to 16.14 for the automatic JSX runtime
+
 ## Fixes
 
 - Prevent a completed login from also reporting `user_closed_popup`
@@ -15,6 +20,17 @@
 - Replace Jest with Vitest and remove the Babel-based test pipeline
 - Upgrade the development toolchain to Vite 8, TypeScript 6, ESLint 10, and React 19
 - Remove unused Babel, Sass, Rimraf, and preview router dependencies
+- Add `build:preview` for generating the deployable Vite preview in `preview/dist`
+- Declare the TypeScript entry point and mark the package as side-effect free
+- Modernize the Next.js example to Next.js 16, React 19, the App Router, and pnpm
+- Add GitHub Actions checks for tests, types, linting, package builds, packing, and the preview
+- Use Node.js 24 for development and continuous integration
+
+## Documentation
+
+- Explain that the library returns an authorization code that applications must exchange on their backend
+- Warn against exposing the LinkedIn Client Secret in browser code
+- Update the React Router and Next.js callback examples
 
 ## Deprecations
 

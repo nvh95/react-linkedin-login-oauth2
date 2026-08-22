@@ -26,7 +26,11 @@ function LinkedInPage() {
       >
         {({ linkedInLogin }) => (
           <img
-            onClick={linkedInLogin}
+            onClick={() => {
+              setCode('');
+              setErrorMessage('');
+              linkedInLogin();
+            }}
             src={linkedin}
             alt="Sign in with Linked In"
             style={{ maxWidth: '180px', cursor: 'pointer' }}

@@ -20,12 +20,18 @@ function LinkedInPage() {
   const [code, setCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const handleLinkedInLogin = () => {
+    setCode('');
+    setErrorMessage('');
+    linkedInLogin();
+  };
+
   return (
     <div>
       hooks
       <br />
       <img
-        onClick={linkedInLogin}
+        onClick={handleLinkedInLogin}
         src={linkedin}
         alt="Sign in with Linked In"
         style={{ maxWidth: '180px', cursor: 'pointer' }}

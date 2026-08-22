@@ -10,4 +10,6 @@ npm-debug.log*
 .npmrc
 /build
 /preview/dist
+/examples/nextjs/.next
+/examples/nextjs/node_modules
 .pnpm-store

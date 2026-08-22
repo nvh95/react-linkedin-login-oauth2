@@ -34,7 +34,7 @@ This library completes the browser portion of LinkedIn's OAuth 2.0 authorization
   - [Demo](#demo)
   - [Props](#props)
   - [Issues](#issues)
-      - [Failed to minify the code from this file: ./node\_modules/react-linkedin-login-oauth2/node\_modules/query-string/index.js:8](#failed-to-minify-the-code-from-this-file-node_modulesreact-linkedin-login-oauth2node_modulesquery-stringindexjs8)
+    - [Failed to minify the code from this file: ./node\_modules/react-linkedin-login-oauth2/node\_modules/query-string/index.js:8](#failed-to-minify-the-code-from-this-file-node_modulesreact-linkedin-login-oauth2node_modulesquery-stringindexjs8)
   - [Known issue](#known-issue)
   - [Migration guide](#migration-guide)
   - [Contributors ✨](#contributors-)
@@ -68,8 +68,6 @@ The authorization code is not an access token and cannot be used directly to cal
 First, we create a button and provide required props:
 
 ```js
-import React, { useState } from 'react';
-
 import { useLinkedIn } from 'react-linkedin-login-oauth2';
 // You can use provided image shipped by this package or using your own
 import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png';
@@ -104,11 +102,9 @@ function LinkedInPage() {
 }
 ```
 
-If you don't want to use hooks. This library offer render props option:
+If you do not want to use hooks, the library also provides a render-props component:
 
 ```js
-import React, { useState } from 'react';
-
 import { LinkedIn } from 'react-linkedin-login-oauth2';
 // You can use provided image shipped by this package or using your own
 import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png';
@@ -140,31 +136,34 @@ function LinkedInPage() {
 }
 ```
 
-Then we point `redirect_url` to `LinkedInCallback`. You can use [react-router-dom](https://reactrouter.com/web) or [Next.js's file system routing](https://nextjs.org/docs/routing/introduction)
+Render `LinkedInCallback` at the path configured as your `redirectUri`. You can use [React Router](https://reactrouter.com/start/declarative/routing) or [Next.js routing](https://nextjs.org/docs/app/getting-started/layouts-and-pages).
 
-- `react-router-dom`:
+- React Router:
 
 ```js
-import React from 'react';
 import { LinkedInCallback } from 'react-linkedin-login-oauth2';
-
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router';
 
 function Demo() {
   return (
     <BrowserRouter>
-      <Route exact path="/linkedin" component={LinkedInCallback} />
+      <Routes>
+        <Route path="/linkedin" element={<LinkedInCallback />} />
+      </Routes>
     </BrowserRouter>
   );
 }
 ```
 
-- Next.js's file system routing:
+- Next.js App Router:
 
 ```js
-// pages/linkedin.js
+// app/linkedin/page.js
+'use client';
+
 import { LinkedInCallback } from 'react-linkedin-login-oauth2';
-export default function LinkedInPage() {
+
+export default function LinkedInCallbackPage() {
   return <LinkedInCallback />;
 }
 ```
