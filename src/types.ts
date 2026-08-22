@@ -1,3 +1,5 @@
+import type { ReactElement } from 'react';
+
 export interface useLinkedInType {
   redirectUri: string;
   clientId: string;
@@ -12,8 +14,10 @@ export interface useLinkedInType {
   state?: string;
   scope?: string;
   closePopupMessage?: string;
+  popupWidth?: number;
+  popupHeight?: number;
 }
 
 export interface LinkedInType extends useLinkedInType {
-  children: ({ linkedInLogin }) => JSX.Element;
+  children: (props: { linkedInLogin: () => void }) => ReactElement;
 }

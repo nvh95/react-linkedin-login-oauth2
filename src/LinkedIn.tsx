@@ -10,6 +10,8 @@ export function LinkedIn({
   state,
   scope,
   closePopupMessage,
+  popupWidth,
+  popupHeight,
 }: LinkedInType) {
   const { linkedInLogin } = useLinkedIn({
     redirectUri,
@@ -19,6 +21,8 @@ export function LinkedIn({
     state,
     scope,
     closePopupMessage,
+    popupWidth,
+    popupHeight,
   });
   return children({ linkedInLogin });
 }
