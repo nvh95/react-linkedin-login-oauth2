@@ -1,7 +1,5 @@
 # React Linked In Login Using OAuth 2.0
 
-## `react-linkedin-login-oauth2` VERSION `2` IS OUT. [THIS IS MIGRATION GUIDE](./MIGRATION-from-1-to-2.md) FROM `1` TO `2`.
-
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
@@ -17,21 +15,29 @@
 
 Demo: https://stupefied-goldberg-b44ee5.netlify.app/
 
-This package is used to get authorization code for Linked In Log in feature using OAuth2 in a easy way. After have the authorization code, you can exchange to an access token by sending it to the server to continue to get information needed. For more details, please see at [Authorization Code Flow (3-legged OAuth)](https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow)  
-See [Usage](#usage) and [Demo](#demo) for instruction.
+> [!WARNING]
+> LinkedIn deprecated the legacy **Sign In with LinkedIn** product on August 1, 2023. Version 2 of this library is maintained for existing applications that still use the legacy `r_emailaddress` and `r_liteprofile` scopes. If you are creating a new application, use version 3 of this library with [Sign In with LinkedIn using OpenID Connect](https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin-v2).
 
-> **Legacy Sign In with LinkedIn:** Version 2.0.2 keeps the `r_emailaddress` default and supports `r_liteprofile` so existing applications can continue using the legacy LinkedIn product. LinkedIn deprecated that product on August 1, 2023, so the package emits a one-time console warning when either legacy scope is used. A future major release will switch the defaults and examples to Sign In with LinkedIn using OpenID Connect.
+This library completes the browser portion of LinkedIn's OAuth 2.0 authorization flow and returns an **authorization code**. It does not exchange that code for an access token. Your application must send the code to its backend, where the backend exchanges it with LinkedIn using the application's client secret. See [Exchange the authorization code](#exchange-the-authorization-code).
 
 ## Table of contents
 
-- [Changelog](#changelog)
-- [Installation](#installation)
-- [Overview](#overview)
-- [Usage](#usage)
+- [React Linked In Login Using OAuth 2.0](#react-linked-in-login-using-oauth-20)
+  - [Table of contents](#table-of-contents)
+  - [Changelog](#changelog)
+  - [Installation](#installation)
+  - [Overview](#overview)
+  - [Usage](#usage)
+  - [Exchange the authorization code](#exchange-the-authorization-code)
+  - [Security](#security)
 - [Support IE](#support-ie)
-- [Demo](#demo)
-- [Props](#props)
-- [Issues](#issues)
+  - [Demo](#demo)
+  - [Props](#props)
+  - [Issues](#issues)
+      - [Failed to minify the code from this file: ./node\_modules/react-linkedin-login-oauth2/node\_modules/query-string/index.js:8](#failed-to-minify-the-code-from-this-file-node_modulesreact-linkedin-login-oauth2node_modulesquery-stringindexjs8)
+  - [Known issue](#known-issue)
+  - [Migration guide](#migration-guide)
+  - [Contributors ✨](#contributors-)
 
 ## Changelog
 
@@ -39,13 +45,23 @@ See [CHANGELOG.md](https://github.com/nvh95/react-linkedin-login-oauth2/blob/mas
 
 ## Installation
 
+For a new application, install version 3 or above and use LinkedIn's OpenID Connect flow:
+
+```shell
+pnpm add react-linkedin-login-oauth2@^3
 ```
-npm install --save react-linkedin-login-oauth2@latest
+
+Only existing applications that depend on the deprecated legacy scopes should install version 2:
+
+```shell
+pnpm add react-linkedin-login-oauth2@^2
 ```
 
 ## Overview
 
-We will trigger `linkedInLogin` by using `useLinkedIn` (recommended) or `LinkedIn` (using render props technique) after click on Sign in with LinkedIn button, a popup window will show up and ask for the permission. After we accepted, the pop up window will redirect to `redirectUri` (should be `LinkedInCallback` component) then notice its opener about the authorization code Linked In provides us. You can use [react-router-dom](https://reactrouter.com/web) or [Next.js's file system routing](https://nextjs.org/docs/routing/introduction)
+Call `linkedInLogin` using `useLinkedIn` (recommended) or the `LinkedIn` render-props component. A popup asks the member to authorize your application. LinkedIn then redirects the popup to your `redirectUri`, where `LinkedInCallback` sends the authorization code back to the original window. Your `onSuccess` callback receives that code.
+
+The authorization code is not an access token and cannot be used directly to call LinkedIn APIs. Send it to your backend immediately and exchange it as described below.
 
 ## Usage
 
@@ -63,11 +79,18 @@ function LinkedInPage() {
     clientId: '86vhj2q7ukf83q',
     redirectUri: `${window.location.origin}/linkedin`, // for Next.js, you can use `${typeof window === 'object' && window.location.origin}/linkedin`
     onSuccess: (code) => {
-      console.log(code);
+      // Send the authorization code to your own backend.
+      fetch('/api/auth/linkedin/exchange', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
+      });
     },
     onError: (error) => {
       console.log(error);
     },
+    popupWidth: 700,
+    popupHeight: 700,
   });
 
   return (
@@ -101,6 +124,8 @@ function LinkedInPage() {
       onError={(error) => {
         console.log(error);
       }}
+      popupWidth={700}
+      popupHeight={700}
     >
       {({ linkedInLogin }) => (
         <img
@@ -144,6 +169,57 @@ export default function LinkedInPage() {
 }
 ```
 
+## Exchange the authorization code
+
+The `code` passed to `onSuccess` is short-lived. Your application should complete these steps immediately:
+
+1. Send the code from the browser to an endpoint on your own backend over HTTPS.
+2. From the backend, send a form-encoded `POST` request to `https://www.linkedin.com/oauth/v2/accessToken`.
+3. Include `grant_type`, `code`, `client_id`, `client_secret`, and the same `redirect_uri` used for authorization.
+4. Check LinkedIn's response and securely store or use the returned access token on the backend.
+5. Create your application's own login session, preferably using a secure, HTTP-only cookie.
+
+The token exchange must run on a server. For example:
+
+```js
+// Server-side code only. Do not include this function in a browser bundle.
+async function exchangeLinkedInCode(code) {
+  const body = new URLSearchParams({
+    grant_type: 'authorization_code',
+    code,
+    client_id: process.env.LINKEDIN_CLIENT_ID,
+    client_secret: process.env.LINKEDIN_CLIENT_SECRET,
+    redirect_uri: process.env.LINKEDIN_REDIRECT_URI,
+  });
+
+  const response = await fetch(
+    'https://www.linkedin.com/oauth/v2/accessToken',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body,
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error(`LinkedIn token exchange failed: ${response.status}`);
+  }
+
+  return response.json();
+}
+```
+
+Your `/api/auth/linkedin/exchange` handler should call this function with the authorization code received from the browser. Validate the request, handle LinkedIn errors, associate the LinkedIn identity with the correct user, and avoid returning the LinkedIn access token to browser code unless your architecture specifically requires it.
+
+See LinkedIn's official [Authorization Code Flow](https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow) documentation for the request fields, response format, token lifetime, and refresh behavior.
+
+## Security
+
+> [!CAUTION]
+> Never put your LinkedIn Client Secret in frontend source code or expose it to the browser. Do not store it in `VITE_*`, `NEXT_PUBLIC_*`, or `REACT_APP_*` environment variables, browser storage, query strings, or the published JavaScript bundle. Anyone using the application can inspect those values.
+
+The LinkedIn Client ID is public and may be passed to this library. The Client Secret must remain on your backend, ideally in a server-side environment variable or secret manager. Only your backend should exchange authorization codes for access tokens. Keep the returned access token secure and, where possible, use it from the backend rather than exposing it to the browser.
+
 # Support IE
 
 - Support for IE is dropped from version `2`
@@ -157,18 +233,21 @@ export default function LinkedInPage() {
 
 - `LinkedIn` component:
 
-| Parameter   | value    | is required |                                                                                                default                                                                                                |
-| ----------- | -------- | :---------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| clientId    | string   |     yes     |                                                                                                                                                                                                       |
-| redirectUri | string   |     yes     |                                                                                                                                                                                                       |
-| onSuccess   | function |     yes     |                                                                                                                                                                                                       |
-| onError     | function |     no      |                                                                                                                                                                                                       |
-| state       | string   |     no      |                                                                      randomly generated string (recommend to keep default value)                                                                      |
-| scope       | string   |     no      |                                                                                           'r_emailaddress'                                                                                            |
-|             |          |             | See your app scope [here](https://docs.microsoft.com/en-us/linkedin/shared/authentication/authentication?context=linkedin/context#permission-types). If there are more than one, delimited by a space |
-| children    | function |     no      |                                                                         Require if using `LinkedIn` component (render props)                                                                          |
+| Parameter         | value    | is required |                                                                                             default                                                                                              |
+| ----------------- | -------- | :---------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| clientId          | string   |     yes     |                                                                                                                                                                                                  |
+| redirectUri       | string   |     yes     |                                                                                                                                                                                                  |
+| onSuccess         | function |     yes     |                                                                                                                                                                                                  |
+| onError           | function |     no      |                                                                                                                                                                                                  |
+| state             | string   |     no      |                                                                   randomly generated string (recommend to keep default value)                                                                    |
+| scope             | string   |     no      |                                                                                         'r_emailaddress'                                                                                         |
+|                   |          |             | See LinkedIn's [OAuth permission documentation](https://learn.microsoft.com/en-us/linkedin/shared/authentication/authentication#member-auth-permissions). Separate multiple scopes with a space. |
+| popupWidth        | number   |     no      |                                                                                               600                                                                                                |
+| popupHeight       | number   |     no      |                                                                                               600                                                                                                |
+| closePopupMessage | string   |     no      |                                                                                     'User closed the popup'                                                                                      |
+| children          | function |     no      |                                                                   Required when using the `LinkedIn` component (render props)                                                                    |
 
-Reference: [https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow?context=linkedin/context#step-2-request-an-authorization-code](https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow?context=linkedin/context#step-2-request-an-authorization-code)
+Reference: [LinkedIn Authorization Code Flow](https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow#step-2-request-an-authorization-code)
 
 - `LinkedInCallback` component:  
   No parameters needed
@@ -181,11 +260,13 @@ Please create an issue at [https://github.com/nvh95/react-linkedin-login-oauth2/
 
 Please upgrade `react-linkedin-login-oauth2` to latest version following
 
-```shell
-npm install --save react-linkedin-login-oauth2
-```
+Follow the version-specific commands in [Installation](#installation).
 
 ## Known issue
+
+## Migration guide
+
+Upgrading an existing integration from version 1? See the [version 1 to version 2 migration guide](./MIGRATION-from-1-to-2.md).
 
 ## Contributors ✨
 
