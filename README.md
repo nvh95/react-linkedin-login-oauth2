@@ -12,6 +12,11 @@
 
 Demo: https://stupefied-goldberg-b44ee5.netlify.app/
 
+> [!NOTE]
+> For an end-to-end setup—from installing the package and configuring a
+> LinkedIn application to exchanging the authorization code and retrieving the
+> member's profile—follow the [complete LinkedIn sign-in tutorial](./TUTORIAL.md).
+
 Version 3 uses LinkedIn's current [Sign in with LinkedIn using OpenID Connect](https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin-v2) product. OpenID Connect (OIDC) is an identity layer built on top of OAuth 2.0: OAuth 2.0 provides the authorization-code flow, while OIDC adds the ID token used to authenticate the member. Migrating from version 2? Follow the [version 2 to version 3 migration guide](./MIGRATION-from-2-to-3.md).
 
 This library completes the browser portion of LinkedIn's OpenID Connect authorization-code flow and returns an **authorization code**. It does not exchange that code for tokens. Your application must send the code to its backend, where the backend exchanges it with LinkedIn using the application's client secret. See [Exchange the authorization code](#exchange-the-authorization-code).
