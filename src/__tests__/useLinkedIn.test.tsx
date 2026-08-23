@@ -21,6 +21,8 @@ type TestComponentProps = {
   onSuccess: (code: string) => void;
   onError: (error: LinkedInError) => void;
   scope?: string;
+  state?: string;
+  closePopupMessage?: string;
   popupWidth?: number;
   popupHeight?: number;
 };
@@ -34,6 +36,8 @@ function TestComponent({
   onSuccess,
   onError,
   scope,
+  state,
+  closePopupMessage,
   popupWidth,
   popupHeight,
 }: TestComponentProps) {
@@ -43,6 +47,8 @@ function TestComponent({
     onSuccess,
     onError,
     scope,
+    state,
+    closePopupMessage,
     popupWidth,
     popupHeight,
   });
@@ -87,7 +93,7 @@ describe('useLinkedIn', () => {
     onError: Mock,
     popupOptions: Pick<
       TestComponentProps,
-      'scope' | 'popupWidth' | 'popupHeight'
+      'scope' | 'state' | 'closePopupMessage' | 'popupWidth' | 'popupHeight'
     > = {},
   ) => {
     act(() => {
@@ -158,6 +164,60 @@ describe('useLinkedIn', () => {
     expect(localStorage.getItem(LINKEDIN_OAUTH2_STATE)).toBeNull();
   });
 
+  test('reports a state mismatch from the login popup', () => {
+    const onSuccess = vi.fn();
+    const onError = vi.fn();
+    renderAndOpenPopup(onSuccess, onError, { state: 'expected-state' });
+
+    act(() => {
+      window.dispatchEvent(
+        new MessageEvent('message', {
+          origin: window.location.origin,
+          source: popup as unknown as Window,
+          data: {
+            code: 'authorization-code',
+            state: 'unexpected-state',
+            from: 'Linked In',
+          },
+        }),
+      );
+    });
+
+    expect(onSuccess).not.toHaveBeenCalled();
+    expect(onError).toHaveBeenCalledWith({
+      error: 'state_mismatch',
+      errorMessage: 'State does not match',
+    });
+    expect(localStorage.getItem(LINKEDIN_OAUTH2_STATE)).toBeNull();
+  });
+
+  test('forwards an authorization error from the login popup', () => {
+    const onSuccess = vi.fn();
+    const onError = vi.fn();
+    renderAndOpenPopup(onSuccess, onError);
+    const state = localStorage.getItem(LINKEDIN_OAUTH2_STATE);
+    const linkedInError = {
+      error: 'access_denied',
+      errorMessage: 'Member declined',
+      state,
+      from: 'Linked In',
+    };
+
+    act(() => {
+      window.dispatchEvent(
+        new MessageEvent('message', {
+          origin: window.location.origin,
+          source: popup as unknown as Window,
+          data: linkedInError,
+        }),
+      );
+    });
+
+    expect(onSuccess).not.toHaveBeenCalled();
+    expect(onError).toHaveBeenCalledWith(linkedInError);
+    expect(localStorage.getItem(LINKEDIN_OAUTH2_STATE)).toBeNull();
+  });
+
   test('warns without blocking when a custom scope omits openid', () => {
     const onSuccess = vi.fn();
     const onError = vi.fn();
@@ -208,10 +268,46 @@ describe('useLinkedIn', () => {
     expect(localStorage.getItem(LINKEDIN_OAUTH2_STATE)).toBeNull();
   });
 
+  test('reports a failure while creating the authorization request', () => {
+    const onSuccess = vi.fn();
+    const onError = vi.fn();
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('Storage is unavailable');
+    });
+
+    renderAndOpenPopup(onSuccess, onError);
+
+    expect(window.open).not.toHaveBeenCalled();
+    expect(onSuccess).not.toHaveBeenCalled();
+    expect(onError).toHaveBeenCalledWith({
+      error: 'authorization_request_failed',
+      errorMessage: 'Storage is unavailable',
+    });
+  });
+
+  test('reports a failure while opening the popup', () => {
+    const onSuccess = vi.fn();
+    const onError = vi.fn();
+    vi.mocked(window.open).mockImplementation(() => {
+      throw new Error('Popup API failed');
+    });
+
+    renderAndOpenPopup(onSuccess, onError);
+
+    expect(onSuccess).not.toHaveBeenCalled();
+    expect(onError).toHaveBeenCalledWith({
+      error: 'popup_open_failed',
+      errorMessage: 'Popup API failed',
+    });
+    expect(localStorage.getItem(LINKEDIN_OAUTH2_STATE)).toBeNull();
+  });
+
   test('reports a manually closed popup once', () => {
     const onSuccess = vi.fn();
     const onError = vi.fn();
-    renderAndOpenPopup(onSuccess, onError);
+    renderAndOpenPopup(onSuccess, onError, {
+      closePopupMessage: 'The member closed LinkedIn',
+    });
 
     popup.closed = true;
     act(() => {
@@ -222,7 +318,30 @@ describe('useLinkedIn', () => {
     expect(onError).toHaveBeenCalledTimes(1);
     expect(onError).toHaveBeenCalledWith({
       error: 'user_closed_popup',
-      errorMessage: 'User closed the popup',
+      errorMessage: 'The member closed LinkedIn',
+    });
+  });
+
+  test('reports a failure while checking the popup status', () => {
+    const onSuccess = vi.fn();
+    const onError = vi.fn();
+    popup.close.mockImplementation(() => undefined);
+    Object.defineProperty(popup, 'closed', {
+      configurable: true,
+      get() {
+        throw new Error('Popup status is unavailable');
+      },
+    });
+    renderAndOpenPopup(onSuccess, onError);
+
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    expect(onSuccess).not.toHaveBeenCalled();
+    expect(onError).toHaveBeenCalledWith({
+      error: 'popup_status_check_failed',
+      errorMessage: 'Popup status is unavailable',
     });
   });
 

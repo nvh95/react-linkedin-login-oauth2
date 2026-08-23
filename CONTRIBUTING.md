@@ -14,6 +14,8 @@
 
 - `pnpm test` will run the tests once.
 
+- `pnpm test:coverage` will run the tests with enforced coverage thresholds and generate text, HTML, and LCOV reports in `coverage`.
+
 - `pnpm test:watch` will run the tests in watch mode.
 
 - `pnpm typecheck` will check the TypeScript source without emitting files.

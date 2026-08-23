@@ -12,6 +12,11 @@
 - Add a version 2 to version 3 migration guide
 - Document the OpenID Connect ID token and UserInfo response alongside the existing server-side authorization-code exchange guidance
 
+## Testing
+
+- Add V8 coverage reports and enforce minimum coverage in local development and continuous integration
+- Cover callback success and error responses, render-props forwarding, popup failures, state validation, scope normalization, and random state formatting
+
 # 2.1.0
 
 ## Features
